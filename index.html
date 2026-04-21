@@ -9,9 +9,9 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="application-name" content="ImportaCalc"/>
 <meta name="theme-color" content="#3a7d54"/>
-<link rel="manifest" href="manifest.json"/>
+<link rel="manifest" href="./manifest.json"/>
 <!-- iOS splash / icon hints -->
-<link rel="apple-touch-icon" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="./icon-192.png"/>
 <title>ImportaCalc</title>
 <style>
 :root{--fs:17px;--radius:14px;--radius-sm:10px;}
@@ -1051,7 +1051,9 @@ document.getElementById('hist-overlay').addEventListener('click',e=>{if(e.target
 
 /* ── SERVICE WORKER (PWA) ─────────────────── */
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  navigator.serviceWorker.register('./sw.js', {scope: './'})
+    .then(reg => console.log('SW registrado:', reg.scope))
+    .catch(err => console.warn('SW error:', err));
 }
 </script>
 </body>
