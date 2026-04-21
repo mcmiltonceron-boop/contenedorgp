@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="ImportaCalc"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="application-name" content="ImportaCalc"/>
+<meta name="theme-color" content="#3a7d54"/>
+<link rel="manifest" href="manifest.json"/>
+<!-- iOS splash / icon hints -->
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<title>ImportaCalc</title>
+<style>
+:root{--fs:17px;--radius:14px;--radius-sm:10px;}
+
+body.t-verde{--bg:#eef5ee;--surface:#fff;--surface2:#deeede;--border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);--text:#1a2e1a;--text2:#4a6050;--text3:#80a080;--accent:#3a7d54;--accent2:#52a872;--accent-bg:#c8eecc;--danger:#b83020;--danger-bg:#fce0da;--info:#2060a0;--info-bg:#d8eaff;--warn:#806010;--warn-bg:#fff0c0;--sidebar:#d4ecd4;--header:#c6e8c6;}
+body.t-azul{--bg:#edf2fb;--surface:#fff;--surface2:#dae8f8;--border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);--text:#162040;--text2:#3a5070;--text3:#7090b0;--accent:#2c62a8;--accent2:#4480cc;--accent-bg:#c4dcf8;--danger:#b83020;--danger-bg:#fce0da;--info:#1060a0;--info-bg:#d0e8ff;--warn:#806010;--warn-bg:#fff0c0;--sidebar:#d0e4f8;--header:#c0d8f4;}
+body.t-rosa{--bg:#fdf0ee;--surface:#fff;--surface2:#f8e0dc;--border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);--text:#30181a;--text2:#704048;--text3:#b07880;--accent:#a04050;--accent2:#c45868;--accent-bg:#f8ccd4;--danger:#c03010;--danger-bg:#ffdad2;--info:#2060a0;--info-bg:#d8eaff;--warn:#806010;--warn-bg:#fff0c0;--sidebar:#f4d8d4;--header:#f0ccc8;}
+body.t-lila{--bg:#f2eefa;--surface:#fff;--surface2:#e4daf4;--border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);--text:#20182e;--text2:#50407a;--text3:#907ab0;--accent:#6040a8;--accent2:#8060cc;--accent-bg:#ddd0f4;--danger:#b03020;--danger-bg:#fcdad2;--info:#2060a8;--info-bg:#d8eaff;--warn:#806010;--warn-bg:#fff0c0;--sidebar:#ddd0f0;--header:#d4c8ec;}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue',sans-serif;font-size:var(--fs);line-height:1.5;}
+.app-shell{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* HEADER */
+.app-header{background:var(--header);border-bottom:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
+.app-header h1{font-size:calc(var(--fs) + 2px);font-weight:800;color:var(--accent);white-space:nowrap;}
+.header-sub{font-size:calc(var(--fs) - 4px);color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.a11y-btn{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:6px 10px;font-size:var(--fs);font-weight:800;color:var(--accent);cursor:pointer;line-height:1;}
+.theme-dot{width:23px;height:23px;border-radius:50%;border:2.5px solid var(--border2);cursor:pointer;flex-shrink:0;}
+.theme-dot.active{border:3px solid var(--accent);box-shadow:0 0 0 2px var(--surface);}
+
+/* BODY */
+.app-body{display:flex;flex:1;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:8px 0;width:108px;overflow-y:auto;}
+.stab{padding:12px 6px;font-size:calc(var(--fs) - 3px);font-weight:700;color:var(--text2);cursor:pointer;text-align:center;border-left:4px solid transparent;transition:all .15s;line-height:1.3;}
+.stab.active{color:var(--accent);background:var(--surface);border-left-color:var(--accent);}
+.stab-icon{font-size:21px;display:block;margin-bottom:3px;}
+
+.main-content{flex:1;overflow-y:auto;padding:14px 16px 50px;}
+.section{display:none;}
+.section.active{display:block;}
+
+@media(orientation:portrait){
+  .sidebar{display:none;}
+  .portrait-tabs{display:flex!important;}
+  .app-body{flex-direction:column;}
+  .main-content{padding-bottom:82px;}
+  .header-sub{display:none;}
+}
+@media(orientation:landscape){.portrait-tabs{display:none!important;}}
+.portrait-tabs{display:none;background:var(--sidebar);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;z-index:10;}
+.ptab{flex:1;padding:6px 3px 8px;font-size:calc(var(--fs) - 6px);font-weight:700;color:var(--text2);text-align:center;cursor:pointer;border-top:3px solid transparent;}
+.ptab.active{color:var(--accent);border-top-color:var(--accent);background:var(--surface);}
+.ptab-icon{font-size:17px;display:block;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.card-title{font-size:calc(var(--fs) - 5px);font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;}
+
+/* FORMS */
+.field{margin-bottom:11px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:calc(var(--fs) - 3px);color:var(--text2);margin-bottom:4px;font-weight:600;}
+.field input,.field select{width:100%;padding:10px 12px;font-size:var(--fs);border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus{border-color:var(--accent2);}
+.field input[readonly]{background:var(--accent-bg);font-weight:700;color:var(--accent);border-color:var(--accent-bg);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+
+/* GASTOS TABLE */
+.gastos-table{width:100%;border-collapse:collapse;}
+.gastos-table tr td{padding:5px 4px;vertical-align:middle;}
+.gastos-table tr td:first-child{font-size:calc(var(--fs) - 2px);color:var(--text2);font-weight:600;width:48%;padding-right:8px;}
+.gastos-table tr td input{width:100%;padding:9px 10px;font-size:var(--fs);border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none;}
+.gastos-table tr td input:focus{border-color:var(--accent2);}
+.gastos-total-row td{padding-top:10px!important;border-top:2px solid var(--border2);}
+.gastos-total-label{font-size:calc(var(--fs) - 1px)!important;font-weight:800!important;color:var(--text)!important;}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+@media(orientation:landscape){.metrics{grid-template-columns:repeat(4,1fr);}}
+.metric{background:var(--surface2);border-radius:var(--radius-sm);padding:11px 13px;border:1px solid var(--border);}
+.metric-label{font-size:calc(var(--fs) - 5px);color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.metric-val{font-size:calc(var(--fs) + 3px);font-weight:800;color:var(--text);}
+.metric-val.green{color:var(--accent);}
+.metric-val.info{color:var(--info);}
+.metric-val.danger{color:var(--danger);}
+.metric-sub{font-size:calc(var(--fs) - 5px);color:var(--text3);margin-top:2px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;font-size:var(--fs);font-weight:600;border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;transition:background .15s,transform .1s;line-height:1;}
+.btn:active{transform:scale(.97);}
+.btn:hover{background:var(--surface2);}
+.btn.full{width:100%;margin-bottom:10px;}
+.btn.accent{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.accent:hover{background:var(--accent2);}
+.btn.danger{color:var(--danger);border-color:var(--danger-bg);}
+.btn.sm{padding:8px 12px;font-size:calc(var(--fs) - 2px);}
+.btn.xs{padding:5px 8px;font-size:calc(var(--fs) - 5px);}
+
+/* PROD ITEM */
+.prod-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:11px;}
+.prod-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.prod-name{font-size:calc(var(--fs) + 1px);font-weight:700;color:var(--text);flex:1;padding-right:8px;}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;margin-bottom:10px;}
+@media(orientation:landscape){.prod-grid{grid-template-columns:repeat(4,1fr);}}
+.prod-line{font-size:calc(var(--fs) - 3px);color:var(--text2);}
+.prod-line b{color:var(--text);font-weight:700;}
+.prod-pvp{background:var(--accent-bg);border-radius:var(--radius-sm);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.pvp-label{font-size:calc(var(--fs) - 3px);color:var(--accent);font-weight:600;}
+.pvp-val{font-size:calc(var(--fs) + 4px);font-weight:800;color:var(--accent);}
+.pvp-pesos{font-size:calc(var(--fs) - 1px);font-weight:700;color:var(--info);}
+
+/* ABONOS */
+.abono-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:9px;display:flex;align-items:center;gap:10px;}
+.abono-info{flex:1;min-width:0;}
+.abono-fecha{font-size:calc(var(--fs) - 2px);color:var(--text2);margin-bottom:2px;}
+.abono-usd{font-size:calc(var(--fs) + 1px);font-weight:800;color:var(--text);}
+.abono-detail{font-size:calc(var(--fs) - 3px);color:var(--text3);margin-top:2px;}
+
+/* EMPTY */
+.empty{text-align:center;padding:44px 20px;color:var(--text3);font-size:var(--fs);}
+.empty .icon{font-size:44px;margin-bottom:10px;}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30;align-items:flex-end;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:18px 18px 0 0;padding:20px 16px 34px;width:100%;max-width:700px;border-top:1.5px solid var(--border2);max-height:92vh;overflow-y:auto;}
+.modal-title{font-size:calc(var(--fs) + 2px);font-weight:800;margin-bottom:16px;}
+.modal-actions{display:flex;gap:10px;margin-top:16px;}
+.modal-actions .btn{flex:1;}
+
+/* HISTORIAL */
+.hist-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px;display:flex;align-items:center;gap:10px;}
+.hist-info{flex:1;min-width:0;}
+.hist-name{font-size:var(--fs);font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-meta{font-size:calc(var(--fs) - 5px);color:var(--text2);margin-top:3px;}
+.hist-actions{display:flex;gap:5px;flex-shrink:0;}
+
+/* INFO BOXES */
+.infobox{border-radius:var(--radius-sm);padding:11px 13px;font-size:calc(var(--fs) - 3px);line-height:1.7;margin-bottom:13px;}
+.infobox.info{background:var(--info-bg);color:var(--info);}
+.infobox.ok{background:var(--accent-bg);color:var(--accent);}
+.infobox.warn{background:var(--warn-bg);color:var(--warn);}
+.infobox.danger{background:var(--danger-bg);color:var(--danger);}
+
+/* RESUMEN TABLE */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);}
+.res-table{width:100%;border-collapse:collapse;font-size:calc(var(--fs) - 3px);}
+.res-table th{background:var(--surface2);color:var(--text2);font-size:calc(var(--fs) - 5px);font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:9px 11px;text-align:right;border-bottom:1px solid var(--border);}
+.res-table th:first-child{text-align:left;}
+.res-table td{padding:9px 11px;border-bottom:1px solid var(--border);text-align:right;color:var(--text);}
+.res-table td:first-child{text-align:left;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.res-table tr:last-child td{border-bottom:none;}
+.res-table .total-row td{font-weight:800;background:var(--accent-bg);color:var(--accent);}
+
+/* SAVE INDICATOR */
+.save-ind{position:fixed;top:12px;right:12px;background:var(--accent);color:#fff;font-size:calc(var(--fs) - 5px);padding:6px 13px;border-radius:999px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99;font-weight:700;}
+.save-ind.show{opacity:1;}
+
+/* SALDO BOXES */
+.saldo-box{border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.saldo-box.ok{background:var(--accent-bg);border:1px solid var(--accent);}
+.saldo-box.pending{background:var(--warn-bg);border:1px solid var(--warn);}
+.saldo-box.zero{background:var(--info-bg);border:1px solid var(--info);}
+.saldo-label{font-size:calc(var(--fs) - 3px);font-weight:700;}
+.saldo-val{font-size:calc(var(--fs) + 3px);font-weight:800;}
+</style>
+</head>
+<body class="t-verde">
+<div class="app-shell">
+
+<!-- HEADER -->
+<div class="app-header">
+  <div>
+    <h1>ImportaCalc</h1>
+    <div class="header-sub" id="header-sub">Gestión de importaciones</div>
+  </div>
+  <div class="header-right">
+    <button class="a11y-btn" onclick="setFont(-1)">A−</button>
+    <button class="a11y-btn" onclick="setFont(1)">A+</button>
+    <div style="display:flex;gap:5px;align-items:center;">
+      <div class="theme-dot active" style="background:#c6e8c6" onclick="setTheme('t-verde',this)"></div>
+      <div class="theme-dot" style="background:#c0d8f4" onclick="setTheme('t-azul',this)"></div>
+      <div class="theme-dot" style="background:#f0ccc8" onclick="setTheme('t-rosa',this)"></div>
+      <div class="theme-dot" style="background:#d4c8ec" onclick="setTheme('t-lila',this)"></div>
+    </div>
+  </div>
+</div>
+
+<div class="app-body">
+
+<!-- SIDEBAR landscape -->
+<div class="sidebar">
+  <div class="stab active" onclick="switchTab(0)"><span class="stab-icon">📋</span>Factura</div>
+  <div class="stab" onclick="switchTab(1)"><span class="stab-icon">🏷️</span>Productos</div>
+  <div class="stab" onclick="switchTab(2)"><span class="stab-icon">💳</span>Abonos</div>
+  <div class="stab" onclick="switchTab(3)"><span class="stab-icon">📊</span>Resumen</div>
+  <div class="stab" onclick="switchTab(4)"><span class="stab-icon">🕐</span>Historial</div>
+  <div class="stab" onclick="switchTab(5)"><span class="stab-icon">⬇️</span>Exportar</div>
+</div>
+
+<div class="main-content">
+
+<!-- ══════════════════════════════════════════
+     TAB 0: FACTURA + GASTOS DE IMPORTACIÓN
+═══════════════════════════════════════════ -->
+<div class="section active" id="tab-0">
+
+  <div class="card">
+    <div class="card-title">Datos de la factura</div>
+    <div class="row2">
+      <div class="field"><label>Proveedor / Referencia</label>
+        <input id="c-nombre" type="text" placeholder="Ej: Proveedor ABC — Mayo 2025" oninput="save()"/></div>
+      <div class="field"><label>Fecha de factura</label>
+        <input id="c-fecha" type="date" oninput="save()"/></div>
+    </div>
+    <div class="field"><label>Valor FOB total de la factura (USD)</label>
+      <input id="c-fob-factura" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Gastos de importación (USD)</div>
+    <table class="gastos-table">
+      <tbody>
+        <tr><td>4 × 1000</td><td><input id="g-cuatro" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Banco</td><td><input id="g-banco" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Trámite</td><td><input id="g-tramite" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Impuesto</td><td><input id="g-impuesto" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Flete</td><td><input id="g-flete" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Bancolombia</td><td><input id="g-bancolobia" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Cruce de frontera</td><td><input id="g-cruce" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Tulcán</td><td><input id="g-tulcan" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Gastos varios</td><td><input id="g-varios" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>Extra</td><td><input id="g-extra" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr class="gastos-total-row">
+          <td class="gastos-total-label">TOTAL GASTOS (USD)</td>
+          <td><input id="g-total" type="text" readonly placeholder="$0.00"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Cotización del dólar</div>
+    <div class="row2">
+      <div class="field"><label>Cotización USD → Pesos</label>
+        <input id="c-cotizacion" type="number" min="0" step="1" placeholder="Ej: 4200" oninput="calcAll()"/></div>
+      <div class="field"><label>Total gastos en PESOS</label>
+        <input id="g-total-pesos" type="text" readonly placeholder="$0"/></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Total factura + gastos (USD)</label>
+        <input id="c-total-usd" type="text" readonly placeholder="$0.00"/></div>
+      <div class="field"><label>Total factura + gastos (PESOS)</label>
+        <input id="c-total-pesos" type="text" readonly placeholder="$0"/></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Margen de ganancia</div>
+    <div class="field"><label>Margen global para todos los productos (%)</label>
+      <input id="c-margen" type="number" min="0" max="999" step="0.5" placeholder="30" oninput="calcAll()"/></div>
+  </div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn accent" style="flex:1;min-width:180px" onclick="saveToHistory()">💾 Guardar en historial</button>
+    <button class="btn danger" onclick="newContainer()">＋ Nueva factura</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 1: PRODUCTOS
+═══════════════════════════════════════════ -->
+<div class="section" id="tab-1">
+  <div class="infobox info">
+    Los gastos de importación se distribuyen proporcionalmente al FOB de cada producto. El costo unitario incluye su parte proporcional de todos los gastos.
+  </div>
+  <button class="btn accent full" onclick="openProdModal()">+ Agregar producto</button>
+  <div id="prod-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 2: ABONOS
+═══════════════════════════════════════════ -->
+<div class="section" id="tab-2">
+  <div class="infobox ok">
+    Los abonos se aplican únicamente al <b>valor FOB de la factura</b> (no incluyen los gastos de importación). Cada abono se registra con su propia cotización del dólar en la fecha de pago.
+  </div>
+
+  <div id="saldo-bar"></div>
+
+  <button class="btn accent full" onclick="openAbonoModal()">+ Registrar abono</button>
+  <div id="abono-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 3: RESUMEN
+═══════════════════════════════════════════ -->
+<div class="section" id="tab-3">
+  <div id="res-metrics" class="metrics"></div>
+  <div class="card" id="res-card">
+    <div class="card-title">Detalle de productos</div>
+    <div class="table-wrap">
+      <table class="res-table">
+        <thead><tr>
+          <th>Producto</th>
+          <th>Cant.</th>
+          <th>Costo U. USD</th>
+          <th>PVP USD</th>
+          <th>PVP Pesos</th>
+          <th>Gan. Total USD</th>
+        </tr></thead>
+        <tbody id="res-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div id="res-abonos-card" class="card" style="display:none">
+    <div class="card-title">Estado de pagos</div>
+    <div id="res-pagos"></div>
+  </div>
+  <div id="res-empty" class="empty" style="display:none">
+    <div class="icon">📊</div>Agrega productos para ver el resumen
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 4: HISTORIAL
+═══════════════════════════════════════════ -->
+<div class="section" id="tab-4">
+  <div class="infobox ok">Facturas guardadas. Puedes ver el detalle, cargar o eliminar.</div>
+  <div id="hist-list"></div>
+  <div id="hist-empty" class="empty" style="display:none">
+    <div class="icon">🕐</div>No hay facturas guardadas aún.<br>
+    Usa <b>"Guardar en historial"</b> desde la pestaña Factura.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 5: EXPORTAR
+═══════════════════════════════════════════ -->
+<div class="section" id="tab-5">
+  <div class="card">
+    <div class="card-title">Exportar a Excel (.xlsx)</div>
+    <p style="font-size:calc(var(--fs) - 2px);color:var(--text2);margin-bottom:14px;line-height:1.7">
+      Genera un Excel con hojas: Resumen, Gastos, Productos y Abonos.
+    </p>
+    <button class="btn full" onclick="exportExcel()">⬇ Descargar Excel</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Exportar a PDF</div>
+    <p style="font-size:calc(var(--fs) - 2px);color:var(--text2);margin-bottom:14px;line-height:1.7">
+      Reporte completo en PDF con gastos, productos, costos, PVP y estado de abonos.
+    </p>
+    <button class="btn full" onclick="exportPDF()">⬇ Descargar PDF</button>
+  </div>
+  <div class="card" style="background:var(--warn-bg);border-color:var(--warn-bg)">
+    <div class="card-title" style="color:var(--warn)">Almacenamiento local</div>
+    <p style="font-size:calc(var(--fs) - 3px);color:var(--warn);margin-bottom:10px;line-height:1.7">
+      Todo se guarda automáticamente en este dispositivo, sin internet.
+    </p>
+    <button class="btn xs danger" onclick="newContainer()">Limpiar factura actual</button>
+  </div>
+</div>
+
+</div><!-- /main-content -->
+</div><!-- /app-body -->
+
+<!-- TABS PORTRAIT -->
+<div class="portrait-tabs">
+  <div class="ptab active" onclick="switchTab(0)"><span class="ptab-icon">📋</span>Factura</div>
+  <div class="ptab" onclick="switchTab(1)"><span class="ptab-icon">🏷️</span>Productos</div>
+  <div class="ptab" onclick="switchTab(2)"><span class="ptab-icon">💳</span>Abonos</div>
+  <div class="ptab" onclick="switchTab(3)"><span class="ptab-icon">📊</span>Resumen</div>
+  <div class="ptab" onclick="switchTab(4)"><span class="ptab-icon">🕐</span>Historial</div>
+  <div class="ptab" onclick="switchTab(5)"><span class="ptab-icon">⬇️</span>Exportar</div>
+</div>
+
+</div><!-- /app-shell -->
+
+<!-- MODAL PRODUCTO -->
+<div class="overlay" id="prod-overlay">
+  <div class="modal">
+    <div class="modal-title" id="prod-modal-title">Agregar producto</div>
+    <div class="field"><label>Nombre del artículo</label>
+      <input id="p-nombre" type="text" placeholder="Ej: Camisetas talla M"/></div>
+    <div class="row2">
+      <div class="field"><label>Cantidad (unidades)</label>
+        <input id="p-qty" type="number" min="1" placeholder="100"/></div>
+      <div class="field"><label>Valor FOB unitario (USD)</label>
+        <input id="p-fob" type="number" min="0" step="0.01" placeholder="12.50"/></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Margen propio (%) — opcional</label>
+        <input id="p-margen" type="number" min="0" step="0.5" placeholder="Usa el global"/></div>
+      <div class="field"><label>Arancel específico (%) — opcional</label>
+        <input id="p-arancel" type="number" min="0" step="0.5" placeholder="0"/></div>
+    </div>
+    <input type="hidden" id="p-edit-index" value="-1"/>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeProdModal()">Cancelar</button>
+      <button class="btn accent" id="prod-modal-btn" onclick="saveProduct()">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ABONO -->
+<div class="overlay" id="abono-overlay">
+  <div class="modal">
+    <div class="modal-title">Registrar abono</div>
+    <div class="field"><label>Fecha del abono</label>
+      <input id="a-fecha" type="date"/></div>
+    <div class="row2">
+      <div class="field"><label>Valor del abono (USD)</label>
+        <input id="a-usd" type="number" min="0" step="0.01" placeholder="500.00" oninput="previewAbono()"/></div>
+      <div class="field"><label>Cotización del dólar en esa fecha</label>
+        <input id="a-cotizacion" type="number" min="0" step="1" placeholder="Ej: 4200" oninput="previewAbono()"/></div>
+    </div>
+    <div id="abono-preview" style="display:none" class="infobox ok" style="margin-top:8px"></div>
+    <div class="field"><label>Concepto / nota (opcional)</label>
+      <input id="a-concepto" type="text" placeholder="Ej: Primer abono transferencia"/></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeAbonoModal()">Cancelar</button>
+      <button class="btn accent" onclick="addAbono()">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HISTORIAL DETALLE -->
+<div class="overlay" id="hist-overlay">
+  <div class="modal">
+    <div class="modal-title" id="hm-title">Detalle de la factura</div>
+    <div id="hm-body"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeHistModal()">Cerrar</button>
+      <button class="btn accent" onclick="loadFromHistModal()">📂 Cargar esta factura</button>
+    </div>
+  </div>
+</div>
+
+<div class="save-ind" id="save-ind">Guardado ✓</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+const STORE_KEY = 'ic_v4_current';
+const HIST_KEY  = 'ic_v4_history';
+const PREF_KEY  = 'ic_v4_prefs';
+
+let products = [];
+let abonos   = [];
+let saveTimer = null;
+let _histEntry = null;
+
+const GASTOS_IDS = ['g-cuatro','g-banco','g-tramite','g-impuesto','g-flete','g-bancolobia','g-cruce','g-tulcan','g-varios','g-extra'];
+const GASTOS_LABELS = ['4×1000','Banco','Trámite','Impuesto','Flete','Bancolombia','Cruce frontera','Tulcán','Gastos varios','Extra'];
+
+/* ── PREFERENCIAS ─────────────────────────── */
+function loadPrefs(){
+  try{
+    const p=JSON.parse(localStorage.getItem(PREF_KEY)||'{}');
+    if(p.theme){document.body.className=p.theme;highlightDot(p.theme);}
+    if(p.fs) document.documentElement.style.setProperty('--fs',p.fs+'px');
+  }catch(e){}
+}
+function savePrefs(){
+  const fs=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
+  const theme=[...document.body.classList].find(c=>c.startsWith('t-'))||'t-verde';
+  localStorage.setItem(PREF_KEY,JSON.stringify({fs,theme}));
+}
+function setFont(d){
+  let cur=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
+  cur=Math.min(28,Math.max(12,cur+d));
+  document.documentElement.style.setProperty('--fs',cur+'px');
+  savePrefs();
+}
+function setTheme(cls,el){
+  document.body.className=cls;
+  highlightDot(cls);
+  savePrefs();
+}
+function highlightDot(cls){
+  const map={'t-verde':0,'t-azul':1,'t-rosa':2,'t-lila':3};
+  document.querySelectorAll('.theme-dot').forEach((d,i)=>d.classList.toggle('active',i===(map[cls]||0)));
+}
+
+/* ── PERSISTENCIA ─────────────────────────── */
+function loadData(){
+  try{
+    const d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+    const set=(id,v)=>{if(v!==undefined&&v!=='')document.getElementById(id).value=v;};
+    set('c-nombre',d.nombre); set('c-fecha',d.fecha);
+    set('c-fob-factura',d.fobFactura); set('c-cotizacion',d.cotizacion);
+    set('c-margen',d.margen);
+    GASTOS_IDS.forEach(id=>set(id,d.gastos?.[id]));
+    if(d.products) products=d.products;
+    if(d.abonos)   abonos=d.abonos;
+  }catch(e){}
+}
+function buildData(){
+  const gastos={};
+  GASTOS_IDS.forEach(id=>{gastos[id]=parseFloat(document.getElementById(id).value)||0;});
+  return{
+    nombre:document.getElementById('c-nombre').value,
+    fecha:document.getElementById('c-fecha').value,
+    fobFactura:parseFloat(document.getElementById('c-fob-factura').value)||0,
+    cotizacion:parseFloat(document.getElementById('c-cotizacion').value)||0,
+    margen:parseFloat(document.getElementById('c-margen').value)||0,
+    gastos, products, abonos
+  };
+}
+function save(){
+  localStorage.setItem(STORE_KEY,JSON.stringify(buildData()));
+  flashSave();
+}
+function flashSave(){
+  const el=document.getElementById('save-ind');
+  el.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>el.classList.remove('show'),1600);
+}
+function newContainer(){
+  if(!confirm('¿Limpiar la factura actual y empezar una nueva?')) return;
+  products=[]; abonos=[];
+  ['c-nombre','c-fecha','c-fob-factura','c-cotizacion','c-margen',...GASTOS_IDS]
+    .forEach(id=>document.getElementById(id).value='');
+  save(); calcAll();
+}
+
+/* ── CÁLCULOS ─────────────────────────────── */
+function getTotalGastos(){
+  return GASTOS_IDS.reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0);
+}
+function getCotizacion(){ return parseFloat(document.getElementById('c-cotizacion').value)||0; }
+function getMargenGlobal(){ return parseFloat(document.getElementById('c-margen').value)||0; }
+function getFobFactura(){ return parseFloat(document.getElementById('c-fob-factura').value)||0; }
+
+function calcProduct(p, totalFOB, totalGastos, gMargen, cotizacion){
+  const mg  = (p.margen!==null&&p.margen!==undefined&&p.margen!=='') ? parseFloat(p.margen) : gMargen;
+  const ar  = parseFloat(p.arancel)||0;
+  const ft  = p.qty*p.fob;
+  const prop = totalFOB>0 ? ft/totalFOB : 0;
+  const gp  = totalGastos*prop;
+  const arVal = ft*(ar/100);
+  const ct  = ft+gp+arVal;
+  const cu  = p.qty>0 ? ct/p.qty : 0;
+  const pv  = cu*(1+mg/100);
+  const pvPesos = cotizacion>0 ? pv*cotizacion : 0;
+  return{fobTotal:ft,gastoProp:gp,arancelVal:arVal,costoTotal:ct,costoUnit:cu,pvp:pv,pvpPesos:pvPesos,
+         gananciaUnit:pv-cu,gananciaTotal:(pv-cu)*p.qty,margen:mg};
+}
+function getAllCalcs(){
+  const totalGastos=getTotalGastos();
+  const cotizacion=getCotizacion();
+  const gMargen=getMargenGlobal();
+  const fobFactura=getFobFactura();
+  // FOB total de productos ingresados; si es 0 usar fobFactura para distribución
+  const fobProds=products.reduce((s,p)=>s+p.qty*p.fob,0);
+  const totalFOB=fobProds>0 ? fobProds : fobFactura;
+  const rows=products.map(p=>({p,r:calcProduct(p,totalFOB,totalGastos,gMargen,cotizacion)}));
+  const totalFactura=fobFactura+totalGastos;
+  return{totalGastos,cotizacion,gMargen,fobFactura,totalFOB,rows,totalFactura};
+}
+
+function calcAll(){
+  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
+  // Actualizar campos readonly
+  setRO('g-total','$'+totalGastos.toFixed(2));
+  setRO('g-total-pesos', cotizacion>0 ? '$'+fmt0(totalGastos*cotizacion) : '—');
+  setRO('c-total-usd','$'+totalFactura.toFixed(2));
+  setRO('c-total-pesos', cotizacion>0 ? '$'+fmt0(totalFactura*cotizacion) : '—');
+  document.getElementById('header-sub').textContent = document.getElementById('c-nombre').value||'Gestión de importaciones';
+  renderProducts(rows);
+  renderAbonos();
+  renderResumen(rows);
+  save();
+}
+function setRO(id,v){document.getElementById(id).value=v;}
+function fmt0(n){return Math.round(n).toLocaleString('es-CO');}
+function fmtUSD(n){return n.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+/* ── RENDER PRODUCTOS ─────────────────────── */
+function renderProducts(rows){
+  const list=document.getElementById('prod-list');
+  if(!rows||rows.length===0){
+    list.innerHTML='<div class="empty"><div class="icon">🏷️</div>No hay productos.<br>Toca "+ Agregar producto".</div>';
+    return;
+  }
+  list.innerHTML=rows.map(({p,r},i)=>`
+    <div class="prod-item">
+      <div class="prod-header">
+        <div class="prod-name">${p.nombre}</div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="btn sm" onclick="openProdModal(${i})" style="color:var(--info);border-color:var(--info-bg)">✏️ Editar</button>
+          <button class="btn sm danger" onclick="removeProduct(${i})">✕</button>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-line">Cantidad: <b>${p.qty} uds.</b></div>
+        <div class="prod-line">FOB unitario: <b>$${fmtUSD(p.fob)}</b></div>
+        <div class="prod-line">FOB total: <b>$${fmtUSD(r.fobTotal)}</b></div>
+        <div class="prod-line">Gasto prop.: <b>$${fmtUSD(r.gastoProp)}</b></div>
+        <div class="prod-line">Arancel: <b>$${fmtUSD(r.arancelVal)}</b></div>
+        <div class="prod-line">Costo unit.: <b>$${fmtUSD(r.costoUnit)}</b></div>
+      </div>
+      <div class="prod-pvp">
+        <span class="pvp-label">PVP &nbsp;<span style="font-size:calc(var(--fs)-6px);background:var(--info-bg);color:var(--info);padding:2px 8px;border-radius:999px;font-weight:600">margen ${r.margen}%</span></span>
+        <div style="text-align:right">
+          <div class="pvp-val">USD $${fmtUSD(r.pvp)}</div>
+          ${r.pvpPesos>0?`<div class="pvp-pesos">COP $${fmt0(r.pvpPesos)}</div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── MODAL PRODUCTO ───────────────────────── */
+function openProdModal(editIdx){
+  const editing = editIdx !== undefined && editIdx >= 0;
+  document.getElementById('prod-modal-title').textContent = editing ? '✏️ Editar producto' : 'Agregar producto';
+  document.getElementById('prod-modal-btn').textContent   = editing ? 'Guardar cambios' : 'Agregar';
+  document.getElementById('p-edit-index').value = editing ? editIdx : -1;
+  if(editing){
+    const p = products[editIdx];
+    document.getElementById('p-nombre').value = p.nombre;
+    document.getElementById('p-qty').value    = p.qty;
+    document.getElementById('p-fob').value    = p.fob;
+    document.getElementById('p-margen').value = p.margen !== null ? p.margen : '';
+    document.getElementById('p-arancel').value= p.arancel || '';
+  }
+  document.getElementById('prod-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('p-nombre').focus(),100);
+}
+function closeProdModal(){
+  document.getElementById('prod-overlay').classList.remove('open');
+  ['p-nombre','p-qty','p-fob','p-margen','p-arancel'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-edit-index').value = -1;
+}
+function saveProduct(){
+  const nombre=document.getElementById('p-nombre').value.trim();
+  const qty=parseFloat(document.getElementById('p-qty').value);
+  const fob=parseFloat(document.getElementById('p-fob').value);
+  if(!nombre||!qty||qty<=0||!fob||fob<=0){alert('Completa nombre, cantidad y FOB unitario.');return;}
+  const mv=document.getElementById('p-margen').value;
+  const av=document.getElementById('p-arancel').value;
+  const prod={nombre,qty,fob,margen:mv!==''?parseFloat(mv):null,arancel:av!==''?parseFloat(av):0};
+  const idx=parseInt(document.getElementById('p-edit-index').value);
+  if(idx>=0){ products[idx]=prod; } else { products.push(prod); }
+  closeProdModal(); calcAll();
+}
+function removeProduct(i){
+  if(!confirm(`¿Eliminar "${products[i].nombre}"?`))return;
+  products.splice(i,1); calcAll();
+}
+
+/* ── ABONOS ───────────────────────────────── */
+function previewAbono(){
+  const usd=parseFloat(document.getElementById('a-usd').value)||0;
+  const cot=parseFloat(document.getElementById('a-cotizacion').value)||0;
+  const prev=document.getElementById('abono-preview');
+  if(usd>0&&cot>0){
+    prev.style.display='block';
+    prev.textContent=`USD $${fmtUSD(usd)} × ${fmt0(cot)} = COP $${fmt0(usd*cot)}`;
+  } else {
+    prev.style.display='none';
+  }
+}
+function openAbonoModal(){
+  document.getElementById('abono-overlay').classList.add('open');
+  // Poner fecha de hoy por defecto
+  document.getElementById('a-fecha').value=new Date().toISOString().slice(0,10);
+  setTimeout(()=>document.getElementById('a-usd').focus(),100);
+}
+function closeAbonoModal(){
+  document.getElementById('abono-overlay').classList.remove('open');
+  ['a-fecha','a-usd','a-cotizacion','a-concepto'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('abono-preview').style.display='none';
+}
+function addAbono(){
+  const fecha=document.getElementById('a-fecha').value;
+  const usd=parseFloat(document.getElementById('a-usd').value);
+  const cot=parseFloat(document.getElementById('a-cotizacion').value);
+  const concepto=document.getElementById('a-concepto').value.trim();
+  if(!fecha||!usd||usd<=0||!cot||cot<=0){alert('Ingresa fecha, valor en USD y cotización del dólar.');return;}
+  abonos.push({fecha,usd,cotizacion:cot,pesos:usd*cot,concepto});
+  closeAbonoModal(); calcAll();
+}
+function removeAbono(i){
+  if(!confirm('¿Eliminar este abono?'))return;
+  abonos.splice(i,1); calcAll();
+}
+function renderAbonos(){
+  const{fobFactura,cotizacion}=getAllCalcs();
+  // Abonos aplican SOLO al FOB de la factura (sin gastos de importación)
+  const baseAbonos=fobFactura;
+  const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
+  const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
+  const saldoUSD=baseAbonos-totalAbonadoUSD;
+  // Saldo en pesos: FOB al cambio actual menos suma de abonos a su cotización de cada fecha
+  const fobEnPesos=cotizacion>0 ? baseAbonos*cotizacion : 0;
+  const saldoPesos=fobEnPesos-totalAbonadoPesos;
+
+  // Barra de saldo
+  const sb=document.getElementById('saldo-bar');
+  const cls=saldoUSD<=0?'zero':saldoUSD<baseAbonos?'pending':'ok';
+  const saldoLabel=saldoUSD<=0?'✅ Factura FOB pagada completamente':saldoUSD<baseAbonos?'⏳ Pago parcial — saldo pendiente':'📋 Sin abonos registrados';
+  sb.innerHTML=`
+    <div class="saldo-box ${cls}" style="margin-bottom:12px">
+      <div>
+        <div class="saldo-label" style="color:${saldoUSD<=0?'var(--accent)':saldoUSD<baseAbonos?'var(--warn)':'var(--text2)'}">${saldoLabel}</div>
+        <div style="font-size:calc(var(--fs)-4px);color:var(--text2);margin-top:3px">
+          FOB factura: <b>USD $${fmtUSD(baseAbonos)}</b> · Abonado: <b>USD $${fmtUSD(totalAbonadoUSD)}</b>
+        </div>
+        <div style="font-size:calc(var(--fs)-5px);color:var(--text3);margin-top:2px">(Los gastos de importación se pagan por separado)</div>
+      </div>
+      <div style="text-align:right">
+        <div class="saldo-val" style="color:${saldoUSD<=0?'var(--accent)':'var(--danger)'}">USD $${fmtUSD(Math.abs(saldoUSD))}</div>
+        ${cotizacion>0&&abonos.length>0?`<div style="font-size:calc(var(--fs)-4px);color:var(--text2)">COP $${fmt0(Math.abs(saldoPesos))}</div>`:''}
+      </div>
+    </div>`;
+
+  const list=document.getElementById('abono-list');
+  if(abonos.length===0){
+    list.innerHTML='<div class="empty"><div class="icon">💳</div>No hay abonos registrados.</div>';
+    return;
+  }
+  list.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding:0 2px">
+      <span style="font-size:calc(var(--fs)-4px);color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em">${abonos.length} abono(s)</span>
+      <span style="font-size:calc(var(--fs)-3px);color:var(--text2)">Total: <b>$${fmtUSD(totalAbonadoUSD)}</b> USD · <b>$${fmt0(totalAbonadoPesos)}</b> COP</span>
+    </div>`+
+    abonos.map((a,i)=>`
+    <div class="abono-item">
+      <div class="abono-info">
+        <div class="abono-fecha">${formatFecha(a.fecha)}${a.concepto?` · ${a.concepto}`:''}</div>
+        <div class="abono-usd">USD $${fmtUSD(a.usd)}</div>
+        <div class="abono-detail">Cotización: $${fmt0(a.cotizacion)} · COP: <b>$${fmt0(a.pesos)}</b></div>
+      </div>
+      <button class="btn xs danger" onclick="removeAbono(${i})">✕</button>
+    </div>`).join('');
+}
+function formatFecha(f){
+  if(!f) return '—';
+  const[y,m,d]=f.split('-');
+  const meses=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${d} ${meses[parseInt(m)-1]} ${y}`;
+}
+
+/* ── RENDER RESUMEN ───────────────────────── */
+function renderResumen(rows){
+  if(!rows){const d=getAllCalcs();rows=d.rows;}
+  const{totalGastos,cotizacion,fobFactura,totalFactura}=getAllCalcs();
+  const me=document.getElementById('res-metrics');
+  const be=document.getElementById('res-body');
+  const ee=document.getElementById('res-empty');
+  const rc=document.getElementById('res-card');
+  const ra=document.getElementById('res-abonos-card');
+
+  if(!rows||rows.length===0){
+    me.innerHTML=''; if(be)be.innerHTML='';
+    if(ee)ee.style.display='block';
+    if(rc)rc.style.display='none';
+    if(ra)ra.style.display='none';
+    return;
+  }
+  if(ee)ee.style.display='none';
+  if(rc)rc.style.display='block';
+
+  const tv=rows.reduce((s,{r,p})=>s+r.pvp*p.qty,0);
+  const tg=rows.reduce((s,{r})=>s+r.gananciaTotal,0);
+  const tc=rows.reduce((s,{r})=>s+r.costoTotal,0);
+  const tvP=cotizacion>0?tv*cotizacion:0;
+  const rt=tv>0?(tg/tv*100):0;
+
+  me.innerHTML=`
+    <div class="metric"><div class="metric-label">Total venta USD</div><div class="metric-val">$${fmtUSD(tv)}</div></div>
+    <div class="metric"><div class="metric-label">Ganancia USD</div><div class="metric-val green">$${fmtUSD(tg)}</div></div>
+    <div class="metric"><div class="metric-label">Total venta COP</div><div class="metric-val info">${cotizacion>0?'$'+fmt0(tvP):'—'}</div></div>
+    <div class="metric"><div class="metric-label">Rentabilidad</div><div class="metric-val green">${rt.toFixed(1)}%</div></div>`;
+
+  if(be) be.innerHTML=rows.map(({p,r})=>`
+    <tr>
+      <td title="${p.nombre}">${p.nombre}</td>
+      <td>${p.qty}</td>
+      <td>$${fmtUSD(r.costoUnit)}</td>
+      <td>$${fmtUSD(r.pvp)}</td>
+      <td style="color:var(--info)">${cotizacion>0?'$'+fmt0(r.pvpPesos):'—'}</td>
+      <td style="color:var(--accent)">$${fmtUSD(r.gananciaTotal)}</td>
+    </tr>`).join('')+
+    `<tr class="total-row">
+      <td colspan="2">TOTAL</td>
+      <td>—</td>
+      <td>$${fmtUSD(tv)}</td>
+      <td>${cotizacion>0?'$'+fmt0(tvP):'—'}</td>
+      <td>$${fmtUSD(tg)}</td>
+    </tr>`;
+
+  // Estado pagos en resumen
+  if(abonos.length>0){
+    if(ra) ra.style.display='block';
+    const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
+    const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
+    // Saldo sobre FOB únicamente
+    const saldo=fobFactura-totalAbonadoUSD;
+    const saldoPesos=cotizacion>0?fobFactura*cotizacion-totalAbonadoPesos:0;
+    document.getElementById('res-pagos').innerHTML=`
+      <div class="row2" style="gap:10px;margin-bottom:10px">
+        <div class="metric"><div class="metric-label">FOB factura USD</div><div class="metric-val">$${fmtUSD(fobFactura)}</div></div>
+        <div class="metric"><div class="metric-label">Abonado USD</div><div class="metric-val">$${fmtUSD(totalAbonadoUSD)}</div></div>
+        <div class="metric"><div class="metric-label">Saldo FOB USD</div><div class="metric-val ${saldo<=0?'green':'danger'}">$${fmtUSD(Math.abs(saldo))}</div></div>
+        <div class="metric"><div class="metric-label">Total abonado COP</div><div class="metric-val info">$${fmt0(totalAbonadoPesos)}</div></div>
+      </div>
+      <div style="font-size:calc(var(--fs)-4px);color:var(--text3);margin-bottom:8px">* Los gastos de importación (USD $${fmtUSD(totalGastos)}) se pagan por separado y no están incluidos en los abonos.</div>
+      ${saldo<=0?'<div class="infobox ok">✅ FOB de la factura completamente pagado.</div>':
+      `<div class="infobox warn">⏳ Saldo FOB pendiente: <b>USD $${fmtUSD(saldo)}</b>${cotizacion>0?` · COP $${fmt0(saldoPesos)}`:''}</div>`}`;
+  } else {
+    if(ra) ra.style.display='none';
+  }
+}
+
+/* ── HISTORIAL ────────────────────────────── */
+function getHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'[]');}catch(e){return[];}}
+function setHistory(h){localStorage.setItem(HIST_KEY,JSON.stringify(h));}
+
+function saveToHistory(){
+  const d=buildData();
+  if(!d.nombre){alert('Asigna un nombre/referencia a la factura antes de guardar.');return;}
+  const h=getHistory();
+  const entry={...d,id:Date.now(),savedAt:new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})};
+  const idx=h.findIndex(x=>x.nombre===d.nombre);
+  if(idx>=0){if(!confirm(`Ya existe "${d.nombre}". ¿Actualizar?`))return; h[idx]=entry;}
+  else h.unshift(entry);
+  setHistory(h); renderHistory(); flashSave();
+  alert(`"${d.nombre}" guardada en el historial.`);
+}
+function renderHistory(){
+  const h=getHistory();
+  const list=document.getElementById('hist-list');
+  const empty=document.getElementById('hist-empty');
+  if(h.length===0){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=h.map((e,i)=>`
+    <div class="hist-item">
+      <div class="hist-info">
+        <div class="hist-name">${e.nombre}</div>
+        <div class="hist-meta">${e.savedAt} · ${(e.products||[]).length} prod. · FOB: $${fmtUSD(e.fobFactura||0)} · ${(e.abonos||[]).length} abono(s)</div>
+      </div>
+      <div class="hist-actions">
+        <button class="btn sm" onclick="openHistModal(${i})">👁 Ver</button>
+        <button class="btn sm accent" onclick="confirmLoad(${i})">📂</button>
+        <button class="btn xs danger" onclick="deleteHist(${i})">✕</button>
+      </div>
+    </div>`).join('');
+}
+function deleteHist(i){
+  const h=getHistory();
+  if(!confirm(`¿Eliminar "${h[i].nombre}"?`))return;
+  h.splice(i,1);setHistory(h);renderHistory();
+}
+function confirmLoad(i){
+  const h=getHistory();
+  if(!confirm(`¿Cargar "${h[i].nombre}"? La factura actual se perderá si no fue guardada.`))return;
+  applyEntry(h[i]);switchTab(0);
+}
+function applyEntry(e){
+  const set=(id,v)=>{if(v!==undefined&&v!==null&&v!=='')document.getElementById(id).value=v; else document.getElementById(id).value='';};
+  set('c-nombre',e.nombre); set('c-fecha',e.fecha);
+  set('c-fob-factura',e.fobFactura); set('c-cotizacion',e.cotizacion);
+  set('c-margen',e.margen);
+  GASTOS_IDS.forEach(id=>set(id,e.gastos?.[id]||''));
+  products=JSON.parse(JSON.stringify(e.products||[]));
+  abonos=JSON.parse(JSON.stringify(e.abonos||[]));
+  save(); calcAll();
+}
+function openHistModal(i){
+  const h=getHistory();
+  _histEntry=h[i];
+  const e=_histEntry;
+  document.getElementById('hm-title').textContent=e.nombre;
+  const totalGastos=GASTOS_IDS.reduce((s,id)=>s+(e.gastos?.[id]||0),0);
+  const totalFactura=(e.fobFactura||0)+totalGastos;
+  const totalAbonadoUSD=(e.abonos||[]).reduce((s,a)=>s+a.usd,0);
+  const totalAbonadoPesos=(e.abonos||[]).reduce((s,a)=>s+a.pesos,0);
+  const prods=(e.products||[]).map(p=>`<tr><td>${p.nombre}</td><td style="text-align:right">${p.qty}</td><td style="text-align:right">$${fmtUSD(p.fob)}</td></tr>`).join('');
+  const abonosRows=(e.abonos||[]).map(a=>`<tr><td>${formatFecha(a.fecha)}</td><td style="text-align:right">$${fmtUSD(a.usd)}</td><td style="text-align:right">$${fmt0(a.cotizacion)}</td><td style="text-align:right">$${fmt0(a.pesos)}</td></tr>`).join('');
+  document.getElementById('hm-body').innerHTML=`
+    <div class="infobox info" style="margin-bottom:10px">
+      Guardada: ${e.savedAt} &nbsp;|&nbsp; FOB: <b>$${fmtUSD(e.fobFactura||0)}</b> &nbsp;|&nbsp; Gastos: <b>$${fmtUSD(totalGastos)}</b> &nbsp;|&nbsp; Total: <b>$${fmtUSD(totalFactura)}</b>
+    </div>
+    ${prods?`<div class="card-title" style="margin-bottom:8px">Productos</div>
+    <div class="table-wrap" style="margin-bottom:12px">
+      <table class="res-table"><thead><tr><th>Producto</th><th>Cant.</th><th>FOB unit.</th></tr></thead><tbody>${prods}</tbody></table>
+    </div>`:''}
+    ${abonosRows?`<div class="card-title" style="margin-bottom:8px">Abonos · Abonado USD: $${fmtUSD(totalAbonadoUSD)}</div>
+    <div class="table-wrap">
+      <table class="res-table"><thead><tr><th>Fecha</th><th>USD</th><th>Cotiz.</th><th>COP</th></tr></thead><tbody>${abonosRows}</tbody></table>
+    </div>`:''}`;
+  document.getElementById('hist-overlay').classList.add('open');
+}
+function closeHistModal(){document.getElementById('hist-overlay').classList.remove('open');_histEntry=null;}
+function loadFromHistModal(){
+  if(!_histEntry)return;
+  if(!confirm(`¿Cargar "${_histEntry.nombre}"?`))return;
+  applyEntry(_histEntry);closeHistModal();switchTab(0);
+}
+
+/* ── TABS ─────────────────────────────────── */
+function switchTab(n){
+  document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===n));
+  if(n===3){const d=getAllCalcs();renderResumen(d.rows);}
+  if(n===4) renderHistory();
+}
+
+/* ── EXPORT EXCEL ─────────────────────────── */
+function exportExcel(){
+  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
+  if(rows.length===0&&abonos.length===0){alert('Agrega productos o abonos antes de exportar.');return;}
+  const wb=XLSX.utils.book_new();
+  const nombre=document.getElementById('c-nombre').value||'Factura';
+
+  // Hoja 1: Resumen
+  const tv=rows.reduce((s,{r,p})=>s+r.pvp*p.qty,0);
+  const tg=rows.reduce((s,{r})=>s+r.gananciaTotal,0);
+  const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
+  const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
+  const ws1=XLSX.utils.aoa_to_sheet([
+    ['RESUMEN — '+nombre],[],
+    ['FOB factura (USD)',fobFactura],
+    ['Total gastos importación (USD)',totalGastos],
+    ['TOTAL FACTURA (USD)',totalFactura],
+    ['Cotización USD/COP',cotizacion],
+    ['Total factura (COP)',cotizacion>0?totalFactura*cotizacion:'-'],[],
+    ['VENTAS'],
+    ['Total venta estimada (USD)',tv],
+    ['Total ganancia (USD)',tg],
+    ['Total venta estimada (COP)',cotizacion>0?tv*cotizacion:'-'],[],
+    ['PAGOS'],
+    ['Total abonado (USD)',totalAbonadoUSD],
+    ['Total abonado (COP)',totalAbonadoPesos],
+    ['Saldo pendiente (USD)',totalFactura-totalAbonadoUSD],
+  ]);
+  ws1['!cols']=[{wch:34},{wch:18}];
+  XLSX.utils.book_append_sheet(wb,ws1,'Resumen');
+
+  // Hoja 2: Gastos
+  const gastosData=[['CONCEPTO','USD'],...GASTOS_IDS.map((id,i)=>[GASTOS_LABELS[i],parseFloat(document.getElementById(id).value)||0]),['TOTAL',totalGastos]];
+  const ws2=XLSX.utils.aoa_to_sheet(gastosData);
+  ws2['!cols']=[{wch:24},{wch:14}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Gastos');
+
+  // Hoja 3: Productos
+  const hdrs=['Producto','Cant.','FOB Unit.','FOB Total','Gasto Prop.','Arancel','Costo Total','Costo Unit.','Margen%','PVP USD','PVP COP','Gan. Unit.','Gan. Total USD'];
+  const ws3=XLSX.utils.aoa_to_sheet([hdrs,...rows.map(({p,r})=>[p.nombre,p.qty,p.fob,r.fobTotal,r.gastoProp,r.arancelVal,r.costoTotal,r.costoUnit,r.margen,r.pvp,cotizacion>0?r.pvpPesos:'-',r.gananciaUnit,r.gananciaTotal])]);
+  ws3['!cols']=hdrs.map((_,i)=>({wch:i===0?28:13}));
+  XLSX.utils.book_append_sheet(wb,ws3,'Productos');
+
+  // Hoja 4: Abonos
+  if(abonos.length>0){
+    const aHdrs=['Fecha','Concepto','Valor USD','Cotización','Valor COP'];
+    const ws4=XLSX.utils.aoa_to_sheet([aHdrs,...abonos.map(a=>[a.fecha,a.concepto||'',a.usd,a.cotizacion,a.pesos]),['','TOTAL',totalAbonadoUSD,'',totalAbonadoPesos]]);
+    ws4['!cols']=[{wch:14},{wch:28},{wch:14},{wch:12},{wch:16}];
+    XLSX.utils.book_append_sheet(wb,ws4,'Abonos');
+  }
+
+  XLSX.writeFile(wb,`importacion_${(nombre).replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+/* ── EXPORT PDF ───────────────────────────── */
+function exportPDF(){
+  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const pw=doc.internal.pageSize.getWidth();
+  const nombre=document.getElementById('c-nombre').value||'Factura';
+  const fecha=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
+
+  // Header
+  doc.setFillColor(58,125,84);doc.rect(0,0,pw,28,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(15);doc.setFont(undefined,'bold');
+  doc.text('ImportaCalc — Reporte de Importación',14,11);
+  doc.setFontSize(9);doc.setFont(undefined,'normal');
+  doc.text(`Generado: ${fecha}`,14,18);
+  doc.text(`Referencia: ${nombre}`,14,24);
+
+  // Gastos
+  doc.setTextColor(30,30,30);doc.setFontSize(11);doc.setFont(undefined,'bold');
+  doc.text('Gastos de importación',14,36);
+  const gastosBody=GASTOS_IDS.map((id,i)=>[GASTOS_LABELS[i],'$'+fmtUSD(parseFloat(document.getElementById(id).value)||0)]);
+  gastosBody.push(['TOTAL GASTOS','$'+fmtUSD(totalGastos)]);
+  gastosBody.push(['FOB Factura','$'+fmtUSD(fobFactura)]);
+  gastosBody.push(['TOTAL FACTURA (USD)','$'+fmtUSD(totalFactura)]);
+  if(cotizacion>0) gastosBody.push(['Cotización USD/COP','$'+fmt0(cotizacion)]);
+  if(cotizacion>0) gastosBody.push(['TOTAL FACTURA (COP)','$'+fmt0(totalFactura*cotizacion)]);
+  doc.autoTable({startY:40,head:[['Concepto','Valor (USD)']],body:gastosBody,
+    styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
+    columnStyles:{1:{halign:'right'}},alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+
+  // Productos
+  if(rows.length>0){
+    let y=doc.lastAutoTable.finalY+8;
+    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Detalle de productos',14,y);
+    doc.autoTable({startY:y+4,
+      head:[['Producto','Cant.','Costo Unit.','PVP USD',cotizacion>0?'PVP COP':'','Ganancia']],
+      body:rows.map(({p,r})=>[p.nombre,p.qty,'$'+fmtUSD(r.costoUnit),'$'+fmtUSD(r.pvp),cotizacion>0?'$'+fmt0(r.pvpPesos):'','$'+fmtUSD(r.gananciaTotal)]),
+      styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
+      columnStyles:{0:{cellWidth:44},1:{halign:'center'},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'},5:{halign:'right'}},
+      alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+  }
+
+  // Abonos
+  if(abonos.length>0){
+    const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
+    const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
+    const saldo=totalFactura-totalAbonadoUSD;
+    let y=doc.lastAutoTable.finalY+8;
+    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Abonos realizados',14,y);
+    doc.autoTable({startY:y+4,
+      head:[['Fecha','Concepto','USD','Cotización','COP']],
+      body:[...abonos.map(a=>[formatFecha(a.fecha),a.concepto||'—','$'+fmtUSD(a.usd),'$'+fmt0(a.cotizacion),'$'+fmt0(a.pesos)]),
+            ['','TOTAL','$'+fmtUSD(totalAbonadoUSD),'','$'+fmt0(totalAbonadoPesos)],
+            ['','SALDO PENDIENTE','$'+fmtUSD(saldo),'','']],
+      styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
+      columnStyles:{2:{halign:'right'},3:{halign:'right'},4:{halign:'right'}},
+      alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+  }
+
+  for(let i=1;i<=doc.internal.getNumberOfPages();i++){
+    doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);
+    doc.text(`Página ${i} de ${doc.internal.getNumberOfPages()} — ImportaCalc`,pw/2,291,{align:'center'});
+  }
+  doc.save(`importacion_${(nombre).replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+}
+
+/* ── INIT ─────────────────────────────────── */
+loadPrefs();
+loadData();
+calcAll();
+document.getElementById('prod-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeProdModal();});
+document.getElementById('abono-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAbonoModal();});
+document.getElementById('hist-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeHistModal();});
+
+/* ── SERVICE WORKER (PWA) ─────────────────── */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
