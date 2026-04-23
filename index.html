@@ -10,7 +10,6 @@
 <meta name="application-name" content="ImportaCalc"/>
 <meta name="theme-color" content="#3a7d54"/>
 <link rel="manifest" href="./manifest.json"/>
-<!-- iOS splash / icon hints -->
 <link rel="apple-touch-icon" href="./icon-192.png"/>
 <title>ImportaCalc</title>
 <style>
@@ -28,7 +27,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 /* HEADER */
 .app-header{background:var(--header);border-bottom:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
 .app-header h1{font-size:calc(var(--fs) + 2px);font-weight:800;color:var(--accent);white-space:nowrap;}
-.header-sub{font-size:calc(var(--fs) - 4px);color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;}
+.header-sub{font-size:calc(var(--fs) - 4px);color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
 .header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .a11y-btn{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:6px 10px;font-size:var(--fs);font-weight:800;color:var(--accent);cursor:pointer;line-height:1;}
 .theme-dot{width:23px;height:23px;border-radius:50%;border:2.5px solid var(--border2);cursor:pointer;flex-shrink:0;}
@@ -69,30 +68,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .field:last-child{margin-bottom:0;}
 .field label{display:block;font-size:calc(var(--fs) - 3px);color:var(--text2);margin-bottom:4px;font-weight:600;}
 .field input,.field select{width:100%;padding:10px 12px;font-size:var(--fs);border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none;transition:border-color .15s;}
-.field input:focus,.field select:focus{border-color:var(--accent2);}
+.field input:focus{border-color:var(--accent2);}
 .field input[readonly]{background:var(--accent-bg);font-weight:700;color:var(--accent);border-color:var(--accent-bg);}
+.field input.readonly-info{background:var(--info-bg);font-weight:700;color:var(--info);border-color:var(--info-bg);}
+.field input.readonly-warn{background:var(--warn-bg);font-weight:700;color:var(--warn);border-color:var(--warn);}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 
 /* GASTOS TABLE */
 .gastos-table{width:100%;border-collapse:collapse;}
-.gastos-table tr td{padding:5px 4px;vertical-align:middle;}
-.gastos-table tr td:first-child{font-size:calc(var(--fs) - 2px);color:var(--text2);font-weight:600;width:48%;padding-right:8px;}
-.gastos-table tr td input{width:100%;padding:9px 10px;font-size:var(--fs);border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none;}
-.gastos-table tr td input:focus{border-color:var(--accent2);}
+.gastos-table td{padding:5px 4px;vertical-align:middle;}
+.gastos-table td:first-child{font-size:calc(var(--fs) - 2px);color:var(--text2);font-weight:600;width:48%;padding-right:8px;}
+.gastos-table td input{width:100%;padding:9px 10px;font-size:var(--fs);border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);outline:none;}
+.gastos-table td input:focus{border-color:var(--accent2);}
+.gastos-table td input[readonly]{background:var(--accent-bg);font-weight:700;color:var(--accent);border-color:var(--accent-bg);}
 .gastos-total-row td{padding-top:10px!important;border-top:2px solid var(--border2);}
 .gastos-total-label{font-size:calc(var(--fs) - 1px)!important;font-weight:800!important;color:var(--text)!important;}
 
 /* METRICS */
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-@media(orientation:landscape){.metrics{grid-template-columns:repeat(4,1fr);}}
+@media(orientation:landscape){.metrics-4{grid-template-columns:repeat(4,1fr)!important;}}
 .metric{background:var(--surface2);border-radius:var(--radius-sm);padding:11px 13px;border:1px solid var(--border);}
 .metric-label{font-size:calc(var(--fs) - 5px);color:var(--text3);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
 .metric-val{font-size:calc(var(--fs) + 3px);font-weight:800;color:var(--text);}
 .metric-val.green{color:var(--accent);}
 .metric-val.info{color:var(--info);}
 .metric-val.danger{color:var(--danger);}
-.metric-sub{font-size:calc(var(--fs) - 5px);color:var(--text3);margin-top:2px;}
+.metric-val.warn{color:var(--warn);}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;font-size:var(--fs);font-weight:600;border:1.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);cursor:pointer;transition:background .15s,transform .1s;line-height:1;}
@@ -116,13 +117,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .prod-pvp{background:var(--accent-bg);border-radius:var(--radius-sm);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
 .pvp-label{font-size:calc(var(--fs) - 3px);color:var(--accent);font-weight:600;}
 .pvp-val{font-size:calc(var(--fs) + 4px);font-weight:800;color:var(--accent);}
-.pvp-pesos{font-size:calc(var(--fs) - 1px);font-weight:700;color:var(--info);}
 
 /* ABONOS */
 .abono-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:9px;display:flex;align-items:center;gap:10px;}
 .abono-info{flex:1;min-width:0;}
 .abono-fecha{font-size:calc(var(--fs) - 2px);color:var(--text2);margin-bottom:2px;}
-.abono-usd{font-size:calc(var(--fs) + 1px);font-weight:800;color:var(--text);}
+.abono-principal{font-size:calc(var(--fs) + 1px);font-weight:800;color:var(--text);}
 .abono-detail{font-size:calc(var(--fs) - 3px);color:var(--text3);margin-top:2px;}
 
 /* EMPTY */
@@ -157,7 +157,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .res-table th{background:var(--surface2);color:var(--text2);font-size:calc(var(--fs) - 5px);font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:9px 11px;text-align:right;border-bottom:1px solid var(--border);}
 .res-table th:first-child{text-align:left;}
 .res-table td{padding:9px 11px;border-bottom:1px solid var(--border);text-align:right;color:var(--text);}
-.res-table td:first-child{text-align:left;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.res-table td:first-child{text-align:left;font-weight:600;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .res-table tr:last-child td{border-bottom:none;}
 .res-table .total-row td{font-weight:800;background:var(--accent-bg);color:var(--accent);}
 
@@ -165,13 +165,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .save-ind{position:fixed;top:12px;right:12px;background:var(--accent);color:#fff;font-size:calc(var(--fs) - 5px);padding:6px 13px;border-radius:999px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99;font-weight:700;}
 .save-ind.show{opacity:1;}
 
-/* SALDO BOXES */
+/* SALDO / ALERTA */
 .saldo-box{border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.saldo-box.ok{background:var(--accent-bg);border:1px solid var(--accent);}
-.saldo-box.pending{background:var(--warn-bg);border:1px solid var(--warn);}
-.saldo-box.zero{background:var(--info-bg);border:1px solid var(--info);}
+.saldo-box.ok{background:var(--accent-bg);border:1.5px solid var(--accent);}
+.saldo-box.pending{background:var(--warn-bg);border:1.5px solid var(--warn);}
+.saldo-box.danger{background:var(--danger-bg);border:1.5px solid var(--danger);}
+.saldo-box.zero{background:var(--info-bg);border:1.5px solid var(--info);}
 .saldo-label{font-size:calc(var(--fs) - 3px);font-weight:700;}
 .saldo-val{font-size:calc(var(--fs) + 3px);font-weight:800;}
+
+/* ALERTA DIFERENCIA */
+.alerta-dif{border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;border:2px solid var(--danger);background:var(--danger-bg);color:var(--danger);font-size:calc(var(--fs) - 2px);font-weight:600;line-height:1.6;display:none;}
+.alerta-dif.visible{display:block;}
 </style>
 </head>
 <body class="t-verde">
@@ -209,10 +214,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
 <div class="main-content">
 
-<!-- ══════════════════════════════════════════
-     TAB 0: FACTURA + GASTOS DE IMPORTACIÓN
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 0: FACTURA ══════════ -->
 <div class="section active" id="tab-0">
+
+  <!-- Alerta de diferencia FOB vs Abonos -->
+  <div class="alerta-dif" id="alerta-dif"></div>
 
   <div class="card">
     <div class="card-title">Datos de la factura</div>
@@ -222,52 +228,43 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="field"><label>Fecha de factura</label>
         <input id="c-fecha" type="date" oninput="save()"/></div>
     </div>
-    <div class="field"><label>Valor FOB total de la factura (USD)</label>
-      <input id="c-fob-factura" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></div>
+    <div class="field"><label>FOB total de la factura (PESOS) — calculado desde abonos</label>
+      <input id="c-fob-pesos" type="text" readonly class="readonly-info" placeholder="Se calcula automáticamente"/></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Gastos de importación (USD)</div>
+    <div class="card-title">Gastos de importación (PESOS)</div>
     <table class="gastos-table">
       <tbody>
-        <tr><td>4 × 1000</td><td><input id="g-cuatro" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Banco</td><td><input id="g-banco" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Trámite</td><td><input id="g-tramite" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Impuesto</td><td><input id="g-impuesto" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Flete</td><td><input id="g-flete" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Bancolombia</td><td><input id="g-bancolobia" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Cruce de frontera</td><td><input id="g-cruce" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Tulcán</td><td><input id="g-tulcan" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Gastos varios</td><td><input id="g-varios" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
-        <tr><td>Extra</td><td><input id="g-extra" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcAll()"/></td></tr>
+        <tr><td>4 × 1000</td><td><input id="g-cuatro" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Banco</td><td><input id="g-banco" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Trámite</td><td><input id="g-tramite" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Impuesto</td><td><input id="g-impuesto" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Flete</td><td><input id="g-flete" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Descargue</td><td><input id="g-descargue" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Cruce de frontera</td><td><input id="g-cruce" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Tulcán</td><td><input id="g-tulcan" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Gastos varios</td><td><input id="g-varios" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Extra 1</td><td><input id="g-extra1" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
+        <tr><td>Extra 2</td><td><input id="g-extra2" type="number" min="0" step="1" placeholder="0" oninput="calcAll()"/></td></tr>
         <tr class="gastos-total-row">
-          <td class="gastos-total-label">TOTAL GASTOS (USD)</td>
-          <td><input id="g-total" type="text" readonly placeholder="$0.00"/></td>
+          <td class="gastos-total-label">TOTAL GASTOS (PESOS)</td>
+          <td><input id="g-total" type="text" readonly placeholder="$0"/></td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="card">
-    <div class="card-title">Cotización del dólar</div>
+    <div class="card-title">Totales de la operación</div>
     <div class="row2">
-      <div class="field"><label>Cotización USD → Pesos</label>
-        <input id="c-cotizacion" type="number" min="0" step="1" placeholder="Ej: 4200" oninput="calcAll()"/></div>
-      <div class="field"><label>Total gastos en PESOS</label>
-        <input id="g-total-pesos" type="text" readonly placeholder="$0"/></div>
+      <div class="field"><label>FOB en pesos (abonos)</label>
+        <input id="r-fob" type="text" readonly class="readonly-info" placeholder="$0"/></div>
+      <div class="field"><label>Gastos de importación</label>
+        <input id="r-gastos" type="text" readonly placeholder="$0"/></div>
     </div>
-    <div class="row2">
-      <div class="field"><label>Total factura + gastos (USD)</label>
-        <input id="c-total-usd" type="text" readonly placeholder="$0.00"/></div>
-      <div class="field"><label>Total factura + gastos (PESOS)</label>
-        <input id="c-total-pesos" type="text" readonly placeholder="$0"/></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Margen de ganancia</div>
-    <div class="field"><label>Margen global para todos los productos (%)</label>
-      <input id="c-margen" type="number" min="0" max="999" step="0.5" placeholder="30" oninput="calcAll()"/></div>
+    <div class="field"><label>TOTAL (FOB + Gastos de importación)</label>
+      <input id="r-total" type="text" readonly style="background:var(--accent-bg);font-weight:800;color:var(--accent);border-color:var(--accent-bg);font-size:calc(var(--fs) + 2px);" placeholder="$0"/></div>
   </div>
 
   <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -276,36 +273,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 1: PRODUCTOS
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 1: PRODUCTOS ══════════ -->
 <div class="section" id="tab-1">
-  <div class="infobox info">
-    Los gastos de importación se distribuyen proporcionalmente al FOB de cada producto. El costo unitario incluye su parte proporcional de todos los gastos.
+  <div class="infobox info" id="prod-info-box">
+    Los gastos de importación se prorratean entre productos según el valor FOB de cada uno. El costo unitario incluye la parte proporcional de los gastos.
   </div>
+  <!-- Alerta diferencia en tab productos -->
+  <div class="alerta-dif" id="alerta-dif-prod"></div>
+
   <button class="btn accent full" onclick="openProdModal()">+ Agregar producto</button>
   <div id="prod-list"></div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 2: ABONOS
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 2: ABONOS ══════════ -->
 <div class="section" id="tab-2">
   <div class="infobox ok">
-    Los abonos se aplican únicamente al <b>valor FOB de la factura</b> (no incluyen los gastos de importación). Cada abono se registra con su propia cotización del dólar en la fecha de pago.
+    Cada abono se registra con su fecha, valor en pesos y cotización del dólar. La <b>suma total de abonos en pesos</b> es el valor FOB de la factura.
   </div>
-
   <div id="saldo-bar"></div>
-
   <button class="btn accent full" onclick="openAbonoModal()">+ Registrar abono</button>
   <div id="abono-list"></div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 3: RESUMEN
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 3: RESUMEN ══════════ -->
 <div class="section" id="tab-3">
-  <div id="res-metrics" class="metrics"></div>
+  <div class="alerta-dif" id="alerta-dif-res"></div>
+  <div id="res-metrics" class="metrics metrics-4"></div>
   <div class="card" id="res-card">
     <div class="card-title">Detalle de productos</div>
     <div class="table-wrap">
@@ -313,17 +306,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <thead><tr>
           <th>Producto</th>
           <th>Cant.</th>
-          <th>Costo U. USD</th>
-          <th>PVP USD</th>
-          <th>PVP Pesos</th>
-          <th>Gan. Total USD</th>
+          <th>FOB unit.</th>
+          <th>FOB total</th>
+          <th>Gasto prop.</th>
+          <th>Costo unit.</th>
+          <th>PVP</th>
+          <th>Ganancia unit.</th>
         </tr></thead>
         <tbody id="res-body"></tbody>
       </table>
     </div>
   </div>
   <div id="res-abonos-card" class="card" style="display:none">
-    <div class="card-title">Estado de pagos</div>
+    <div class="card-title">Gastos de importación en detalle y totales</div>
     <div id="res-pagos"></div>
   </div>
   <div id="res-empty" class="empty" style="display:none">
@@ -331,9 +326,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 4: HISTORIAL
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 4: HISTORIAL ══════════ -->
 <div class="section" id="tab-4">
   <div class="infobox ok">Facturas guardadas. Puedes ver el detalle, cargar o eliminar.</div>
   <div id="hist-list"></div>
@@ -343,9 +336,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     TAB 5: EXPORTAR
-═══════════════════════════════════════════ -->
+<!-- ══════════ TAB 5: EXPORTAR ══════════ -->
 <div class="section" id="tab-5">
   <div class="card">
     <div class="card-title">Exportar a Excel (.xlsx)</div>
@@ -357,7 +348,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   <div class="card">
     <div class="card-title">Exportar a PDF</div>
     <p style="font-size:calc(var(--fs) - 2px);color:var(--text2);margin-bottom:14px;line-height:1.7">
-      Reporte completo en PDF con gastos, productos, costos, PVP y estado de abonos.
+      Reporte completo con gastos, productos, costos, PVP y abonos.
     </p>
     <button class="btn full" onclick="exportPDF()">⬇ Descargar PDF</button>
   </div>
@@ -385,7 +376,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
 </div><!-- /app-shell -->
 
-<!-- MODAL PRODUCTO -->
+<!-- ══════════ MODAL PRODUCTO ══════════ -->
 <div class="overlay" id="prod-overlay">
   <div class="modal">
     <div class="modal-title" id="prod-modal-title">Agregar producto</div>
@@ -394,15 +385,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <div class="row2">
       <div class="field"><label>Cantidad (unidades)</label>
         <input id="p-qty" type="number" min="1" placeholder="100"/></div>
-      <div class="field"><label>Valor FOB unitario (USD)</label>
-        <input id="p-fob" type="number" min="0" step="0.01" placeholder="12.50"/></div>
+      <div class="field"><label>Valor FOB unitario (PESOS)</label>
+        <input id="p-fob" type="number" min="0" step="1" placeholder="25000"/></div>
     </div>
-    <div class="row2">
-      <div class="field"><label>Margen propio (%) — opcional</label>
-        <input id="p-margen" type="number" min="0" step="0.5" placeholder="Usa el global"/></div>
-      <div class="field"><label>Arancel específico (%) — opcional</label>
-        <input id="p-arancel" type="number" min="0" step="0.5" placeholder="0"/></div>
-    </div>
+    <div class="field"><label>Precio de Venta — PVP (PESOS)</label>
+      <input id="p-pvp" type="number" min="0" step="100" placeholder="Ej: 85000"/></div>
     <input type="hidden" id="p-edit-index" value="-1"/>
     <div class="modal-actions">
       <button class="btn" onclick="closeProdModal()">Cancelar</button>
@@ -411,7 +398,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
 </div>
 
-<!-- MODAL ABONO -->
+<!-- ══════════ MODAL ABONO ══════════ -->
 <div class="overlay" id="abono-overlay">
   <div class="modal">
     <div class="modal-title">Registrar abono</div>
@@ -419,11 +406,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <input id="a-fecha" type="date"/></div>
     <div class="row2">
       <div class="field"><label>Valor del abono (USD)</label>
-        <input id="a-usd" type="number" min="0" step="0.01" placeholder="500.00" oninput="previewAbono()"/></div>
+        <input id="a-usd" type="number" min="0" step="0.01" placeholder="Ej: 1500.00" oninput="previewAbono()"/></div>
       <div class="field"><label>Cotización del dólar en esa fecha</label>
         <input id="a-cotizacion" type="number" min="0" step="1" placeholder="Ej: 4200" oninput="previewAbono()"/></div>
     </div>
-    <div id="abono-preview" style="display:none" class="infobox ok" style="margin-top:8px"></div>
+    <div id="abono-preview" class="infobox ok" style="display:none"></div>
+    <div class="field"><label>Valor calculado en PESOS (solo lectura)</label>
+      <input id="a-pesos-calc" type="text" readonly class="readonly-info" placeholder="Se calcula automáticamente"/></div>
     <div class="field"><label>Concepto / nota (opcional)</label>
       <input id="a-concepto" type="text" placeholder="Ej: Primer abono transferencia"/></div>
     <div class="modal-actions">
@@ -433,7 +422,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
   </div>
 </div>
 
-<!-- MODAL HISTORIAL DETALLE -->
+<!-- ══════════ MODAL HISTORIAL ══════════ -->
 <div class="overlay" id="hist-overlay">
   <div class="modal">
     <div class="modal-title" id="hm-title">Detalle de la factura</div>
@@ -452,150 +441,204 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-const STORE_KEY = 'ic_v4_current';
-const HIST_KEY  = 'ic_v4_history';
-const PREF_KEY  = 'ic_v4_prefs';
+/* ═══════════════════════════════════════════
+   CONSTANTES Y ESTADO
+═══════════════════════════════════════════ */
+const STORE_KEY = 'ic_v5_current';
+const HIST_KEY  = 'ic_v5_history';
+const PREF_KEY  = 'ic_v5_prefs';
 
-let products = [];
-let abonos   = [];
+const GASTOS_IDS    = ['g-cuatro','g-banco','g-tramite','g-impuesto','g-flete','g-descargue','g-cruce','g-tulcan','g-varios','g-extra1','g-extra2'];
+const GASTOS_LABELS = ['4×1000','Banco','Trámite','Impuesto','Flete','Descargue','Cruce frontera','Tulcán','Gastos varios','Extra 1','Extra 2'];
+
+let products  = [];
+let abonos    = [];
 let saveTimer = null;
 let _histEntry = null;
 
-const GASTOS_IDS = ['g-cuatro','g-banco','g-tramite','g-impuesto','g-flete','g-bancolobia','g-cruce','g-tulcan','g-varios','g-extra'];
-const GASTOS_LABELS = ['4×1000','Banco','Trámite','Impuesto','Flete','Bancolombia','Cruce frontera','Tulcán','Gastos varios','Extra'];
-
-/* ── PREFERENCIAS ─────────────────────────── */
+/* ═══════════════════════════════════════════
+   PREFERENCIAS (fuente y tema)
+═══════════════════════════════════════════ */
 function loadPrefs(){
   try{
-    const p=JSON.parse(localStorage.getItem(PREF_KEY)||'{}');
-    if(p.theme){document.body.className=p.theme;highlightDot(p.theme);}
-    if(p.fs) document.documentElement.style.setProperty('--fs',p.fs+'px');
+    const p = JSON.parse(localStorage.getItem(PREF_KEY)||'{}');
+    if(p.theme){ document.body.className = p.theme; highlightDot(p.theme); }
+    if(p.fs)   document.documentElement.style.setProperty('--fs', p.fs+'px');
   }catch(e){}
 }
 function savePrefs(){
-  const fs=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
-  const theme=[...document.body.classList].find(c=>c.startsWith('t-'))||'t-verde';
-  localStorage.setItem(PREF_KEY,JSON.stringify({fs,theme}));
+  const fs = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
+  const theme = [...document.body.classList].find(c=>c.startsWith('t-'))||'t-verde';
+  localStorage.setItem(PREF_KEY, JSON.stringify({fs, theme}));
 }
 function setFont(d){
-  let cur=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
-  cur=Math.min(28,Math.max(12,cur+d));
-  document.documentElement.style.setProperty('--fs',cur+'px');
+  let cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||17;
+  cur = Math.min(28, Math.max(12, cur+d));
+  document.documentElement.style.setProperty('--fs', cur+'px');
   savePrefs();
 }
-function setTheme(cls,el){
-  document.body.className=cls;
+function setTheme(cls, el){
+  document.body.className = cls;
   highlightDot(cls);
   savePrefs();
 }
 function highlightDot(cls){
-  const map={'t-verde':0,'t-azul':1,'t-rosa':2,'t-lila':3};
-  document.querySelectorAll('.theme-dot').forEach((d,i)=>d.classList.toggle('active',i===(map[cls]||0)));
+  const map = {'t-verde':0,'t-azul':1,'t-rosa':2,'t-lila':3};
+  document.querySelectorAll('.theme-dot').forEach((d,i)=>d.classList.toggle('active', i===(map[cls]||0)));
 }
 
-/* ── PERSISTENCIA ─────────────────────────── */
+/* ═══════════════════════════════════════════
+   PERSISTENCIA
+═══════════════════════════════════════════ */
 function loadData(){
   try{
-    const d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
-    const set=(id,v)=>{if(v!==undefined&&v!=='')document.getElementById(id).value=v;};
-    set('c-nombre',d.nombre); set('c-fecha',d.fecha);
-    set('c-fob-factura',d.fobFactura); set('c-cotizacion',d.cotizacion);
-    set('c-margen',d.margen);
-    GASTOS_IDS.forEach(id=>set(id,d.gastos?.[id]));
-    if(d.products) products=d.products;
-    if(d.abonos)   abonos=d.abonos;
+    const d = JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+    const set = (id,v) => { if(v!==undefined && v!==null && v!=='') document.getElementById(id).value = v; };
+    set('c-nombre', d.nombre);
+    set('c-fecha',  d.fecha);
+    GASTOS_IDS.forEach(id => set(id, d.gastos?.[id]));
+    if(d.products) products = d.products;
+    if(d.abonos)   abonos   = d.abonos;
   }catch(e){}
 }
 function buildData(){
-  const gastos={};
-  GASTOS_IDS.forEach(id=>{gastos[id]=parseFloat(document.getElementById(id).value)||0;});
-  return{
-    nombre:document.getElementById('c-nombre').value,
-    fecha:document.getElementById('c-fecha').value,
-    fobFactura:parseFloat(document.getElementById('c-fob-factura').value)||0,
-    cotizacion:parseFloat(document.getElementById('c-cotizacion').value)||0,
-    margen:parseFloat(document.getElementById('c-margen').value)||0,
-    gastos, products, abonos
+  const gastos = {};
+  GASTOS_IDS.forEach(id => { gastos[id] = parseFloat(document.getElementById(id).value)||0; });
+  return {
+    nombre:  document.getElementById('c-nombre').value,
+    fecha:   document.getElementById('c-fecha').value,
+    gastos,  products, abonos
   };
 }
 function save(){
-  localStorage.setItem(STORE_KEY,JSON.stringify(buildData()));
+  localStorage.setItem(STORE_KEY, JSON.stringify(buildData()));
   flashSave();
 }
 function flashSave(){
-  const el=document.getElementById('save-ind');
+  const el = document.getElementById('save-ind');
   el.classList.add('show');
   clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>el.classList.remove('show'),1600);
+  saveTimer = setTimeout(()=>el.classList.remove('show'), 1600);
 }
 function newContainer(){
   if(!confirm('¿Limpiar la factura actual y empezar una nueva?')) return;
-  products=[]; abonos=[];
-  ['c-nombre','c-fecha','c-fob-factura','c-cotizacion','c-margen',...GASTOS_IDS]
-    .forEach(id=>document.getElementById(id).value='');
+  products = []; abonos = [];
+  ['c-nombre','c-fecha',...GASTOS_IDS].forEach(id=>document.getElementById(id).value='');
   save(); calcAll();
 }
 
-/* ── CÁLCULOS ─────────────────────────────── */
-function getTotalGastos(){
-  return GASTOS_IDS.reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0);
+/* ═══════════════════════════════════════════
+   FUNCIONES DE FORMATO
+═══════════════════════════════════════════ */
+function fmt0(n){ return Math.round(n).toLocaleString('es-CO'); }
+function fmtP(n){ return '$' + fmt0(n); }
+function fmtUSD(n){ return n.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function formatFecha(f){
+  if(!f) return '—';
+  const [y,m,d] = f.split('-');
+  const M = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${d} ${M[parseInt(m)-1]} ${y}`;
 }
-function getCotizacion(){ return parseFloat(document.getElementById('c-cotizacion').value)||0; }
-function getMargenGlobal(){ return parseFloat(document.getElementById('c-margen').value)||0; }
-function getFobFactura(){ return parseFloat(document.getElementById('c-fob-factura').value)||0; }
 
-function calcProduct(p, totalFOB, totalGastos, gMargen, cotizacion){
-  const mg  = (p.margen!==null&&p.margen!==undefined&&p.margen!=='') ? parseFloat(p.margen) : gMargen;
-  const ar  = parseFloat(p.arancel)||0;
-  const ft  = p.qty*p.fob;
-  const prop = totalFOB>0 ? ft/totalFOB : 0;
-  const gp  = totalGastos*prop;
-  const arVal = ft*(ar/100);
-  const ct  = ft+gp+arVal;
-  const cu  = p.qty>0 ? ct/p.qty : 0;
-  const pv  = cu*(1+mg/100);
-  const pvPesos = cotizacion>0 ? pv*cotizacion : 0;
-  return{fobTotal:ft,gastoProp:gp,arancelVal:arVal,costoTotal:ct,costoUnit:cu,pvp:pv,pvpPesos:pvPesos,
-         gananciaUnit:pv-cu,gananciaTotal:(pv-cu)*p.qty,margen:mg};
+/* ═══════════════════════════════════════════
+   CÁLCULOS CENTRALES
+   
+   Lógica nueva:
+   - FOB (pesos) = suma total de abonos en pesos
+   - Gastos de importación = ingresados en pesos
+   - Total operación = FOB + gastos (pesos)
+   - Productos: FOB unitario en pesos, distribución
+     proporcional de gastos según FOB de cada producto
+   - Costo unitario = (FOB prod + gasto prop) / cantidad
+   - PVP = campo ingresado globalmente por el usuario
+   - Alerta si suma FOB productos ≠ FOB abonos
+═══════════════════════════════════════════ */
+function getTotalGastos(){
+  return GASTOS_IDS.reduce((s,id) => s + (parseFloat(document.getElementById(id).value)||0), 0);
 }
+function getTotalAbonosPesos(){
+  return abonos.reduce((s,a) => s + a.pesos, 0);
+}
+function getFOBProductos(){
+  return products.reduce((s,p) => s + p.qty * p.fob, 0);
+}
+
 function getAllCalcs(){
-  const totalGastos=getTotalGastos();
-  const cotizacion=getCotizacion();
-  const gMargen=getMargenGlobal();
-  const fobFactura=getFobFactura();
-  // FOB total de productos ingresados; si es 0 usar fobFactura para distribución
-  const fobProds=products.reduce((s,p)=>s+p.qty*p.fob,0);
-  const totalFOB=fobProds>0 ? fobProds : fobFactura;
-  const rows=products.map(p=>({p,r:calcProduct(p,totalFOB,totalGastos,gMargen,cotizacion)}));
-  const totalFactura=fobFactura+totalGastos;
-  return{totalGastos,cotizacion,gMargen,fobFactura,totalFOB,rows,totalFactura};
+  const totalGastos  = getTotalGastos();
+  const fobPesos     = getTotalAbonosPesos();
+  const fobProductos = getFOBProductos();
+  const totalOp      = fobPesos + totalGastos;
+  const diferencia   = fobProductos - fobPesos;
+
+  const rows = products.map(p => {
+    const fobProd    = p.qty * p.fob;
+    const prop       = fobProductos > 0 ? fobProd / fobProductos : 0;
+    const gastoProp  = totalGastos * prop;
+    const costoTotal = fobProd + gastoProp;
+    const costoUnit  = p.qty > 0 ? costoTotal / p.qty : 0;
+    const pvp        = p.pvp || 0;
+    const ganancia   = pvp > 0 ? pvp - costoUnit : 0;
+    const gananciaTotal = ganancia * p.qty;
+    return { p, fobProd, gastoProp, costoTotal, costoUnit, pvp, ganancia, gananciaTotal };
+  });
+
+  return { totalGastos, fobPesos, fobProductos, totalOp, diferencia, rows };
 }
 
 function calcAll(){
-  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
-  // Actualizar campos readonly
-  setRO('g-total','$'+totalGastos.toFixed(2));
-  setRO('g-total-pesos', cotizacion>0 ? '$'+fmt0(totalGastos*cotizacion) : '—');
-  setRO('c-total-usd','$'+totalFactura.toFixed(2));
-  setRO('c-total-pesos', cotizacion>0 ? '$'+fmt0(totalFactura*cotizacion) : '—');
-  document.getElementById('header-sub').textContent = document.getElementById('c-nombre').value||'Gestión de importaciones';
+  const { totalGastos, fobPesos, fobProductos, totalOp, diferencia, rows } = getAllCalcs();
+
+  setRO('c-fob-pesos', fobPesos > 0 ? fmtP(fobPesos) : '');
+  setRO('g-total',     fmtP(totalGastos));
+  setRO('r-fob',       fmtP(fobPesos));
+  setRO('r-gastos',    fmtP(totalGastos));
+  setRO('r-total',     fmtP(totalOp));
+
+  document.getElementById('header-sub').textContent =
+    document.getElementById('c-nombre').value || 'Gestión de importaciones';
+
+  checkDiferencia(diferencia, fobPesos, fobProductos);
   renderProducts(rows);
   renderAbonos();
   renderResumen(rows);
   save();
 }
-function setRO(id,v){document.getElementById(id).value=v;}
-function fmt0(n){return Math.round(n).toLocaleString('es-CO');}
-function fmtUSD(n){return n.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-/* ── RENDER PRODUCTOS ─────────────────────── */
-function renderProducts(rows){
-  const list=document.getElementById('prod-list');
-  if(!rows||rows.length===0){
-    list.innerHTML='<div class="empty"><div class="icon">🏷️</div>No hay productos.<br>Toca "+ Agregar producto".</div>';
+function setRO(id, v){ document.getElementById(id).value = v; }
+
+/* ═══════════════════════════════════════════
+   ALERTA DE DIFERENCIA FOB
+═══════════════════════════════════════════ */
+function checkDiferencia(dif, fobPesos, fobProds){
+  const ids = ['alerta-dif','alerta-dif-prod','alerta-dif-res'];
+  if(fobProds === 0 || fobPesos === 0){
+    ids.forEach(id => { const el=document.getElementById(id); if(el){ el.classList.remove('visible'); el.textContent=''; }});
     return;
   }
-  list.innerHTML=rows.map(({p,r},i)=>`
+  const ok = Math.abs(dif) < 1; // tolerancia de 1 peso por redondeos
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(ok){
+      el.classList.remove('visible');
+      el.textContent = '';
+    } else {
+      el.classList.add('visible');
+      el.innerHTML = `⚠️ <b>Diferencia detectada:</b> La suma FOB de productos (${fmtP(fobProds)}) ${dif>0?'supera':'no alcanza'} el total de abonos (${fmtP(fobPesos)}) en <b>${fmtP(Math.abs(dif))}</b>. Revisa los valores.`;
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════
+   RENDER PRODUCTOS
+═══════════════════════════════════════════ */
+function renderProducts(rows){
+  const list = document.getElementById('prod-list');
+  if(!rows || rows.length === 0){
+    list.innerHTML = '<div class="empty"><div class="icon">🏷️</div>No hay productos.<br>Toca "+ Agregar producto".</div>';
+    return;
+  }
+  list.innerHTML = rows.map(({p, fobProd, gastoProp, costoTotal, costoUnit, pvp, ganancia, gananciaTotal}, i) => `
     <div class="prod-item">
       <div class="prod-header">
         <div class="prod-name">${p.nombre}</div>
@@ -606,23 +649,25 @@ function renderProducts(rows){
       </div>
       <div class="prod-grid">
         <div class="prod-line">Cantidad: <b>${p.qty} uds.</b></div>
-        <div class="prod-line">FOB unitario: <b>$${fmtUSD(p.fob)}</b></div>
-        <div class="prod-line">FOB total: <b>$${fmtUSD(r.fobTotal)}</b></div>
-        <div class="prod-line">Gasto prop.: <b>$${fmtUSD(r.gastoProp)}</b></div>
-        <div class="prod-line">Arancel: <b>$${fmtUSD(r.arancelVal)}</b></div>
-        <div class="prod-line">Costo unit.: <b>$${fmtUSD(r.costoUnit)}</b></div>
+        <div class="prod-line">FOB unitario: <b>${fmtP(p.fob)}</b></div>
+        <div class="prod-line">FOB total: <b>${fmtP(fobProd)}</b></div>
+        <div class="prod-line">Gasto prop.: <b>${fmtP(gastoProp)}</b></div>
+        <div class="prod-line">Costo total: <b>${fmtP(costoTotal)}</b></div>
+        <div class="prod-line">Costo unitario: <b>${fmtP(costoUnit)}</b></div>
       </div>
       <div class="prod-pvp">
-        <span class="pvp-label">PVP &nbsp;<span style="font-size:calc(var(--fs)-6px);background:var(--info-bg);color:var(--info);padding:2px 8px;border-radius:999px;font-weight:600">margen ${r.margen}%</span></span>
+        <span class="pvp-label">PVP</span>
         <div style="text-align:right">
-          <div class="pvp-val">USD $${fmtUSD(r.pvp)}</div>
-          ${r.pvpPesos>0?`<div class="pvp-pesos">COP $${fmt0(r.pvpPesos)}</div>`:''}
+          <div class="pvp-val">${pvp > 0 ? fmtP(pvp) : '— Sin PVP'}</div>
+          ${pvp > 0 ? `<div style="font-size:calc(var(--fs)-3px);color:var(--info);font-weight:700">Ganancia unit.: ${fmtP(ganancia)} &nbsp;|&nbsp; Total: ${fmtP(gananciaTotal)}</div>` : ''}
         </div>
       </div>
     </div>`).join('');
 }
 
-/* ── MODAL PRODUCTO ───────────────────────── */
+/* ═══════════════════════════════════════════
+   MODAL PRODUCTO
+═══════════════════════════════════════════ */
 function openProdModal(editIdx){
   const editing = editIdx !== undefined && editIdx >= 0;
   document.getElementById('prod-modal-title').textContent = editing ? '✏️ Editar producto' : 'Agregar producto';
@@ -633,415 +678,618 @@ function openProdModal(editIdx){
     document.getElementById('p-nombre').value = p.nombre;
     document.getElementById('p-qty').value    = p.qty;
     document.getElementById('p-fob').value    = p.fob;
-    document.getElementById('p-margen').value = p.margen !== null ? p.margen : '';
-    document.getElementById('p-arancel').value= p.arancel || '';
+    document.getElementById('p-pvp').value    = p.pvp || '';
   }
   document.getElementById('prod-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('p-nombre').focus(),100);
+  setTimeout(()=>document.getElementById('p-nombre').focus(), 100);
 }
 function closeProdModal(){
   document.getElementById('prod-overlay').classList.remove('open');
-  ['p-nombre','p-qty','p-fob','p-margen','p-arancel'].forEach(id=>document.getElementById(id).value='');
+  ['p-nombre','p-qty','p-fob','p-pvp'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('p-edit-index').value = -1;
 }
 function saveProduct(){
-  const nombre=document.getElementById('p-nombre').value.trim();
-  const qty=parseFloat(document.getElementById('p-qty').value);
-  const fob=parseFloat(document.getElementById('p-fob').value);
-  if(!nombre||!qty||qty<=0||!fob||fob<=0){alert('Completa nombre, cantidad y FOB unitario.');return;}
-  const mv=document.getElementById('p-margen').value;
-  const av=document.getElementById('p-arancel').value;
-  const prod={nombre,qty,fob,margen:mv!==''?parseFloat(mv):null,arancel:av!==''?parseFloat(av):0};
-  const idx=parseInt(document.getElementById('p-edit-index').value);
-  if(idx>=0){ products[idx]=prod; } else { products.push(prod); }
+  const nombre = document.getElementById('p-nombre').value.trim();
+  const qty    = parseFloat(document.getElementById('p-qty').value);
+  const fob    = parseFloat(document.getElementById('p-fob').value);
+  const pvp    = parseFloat(document.getElementById('p-pvp').value)||0;
+  if(!nombre || !qty || qty<=0 || !fob || fob<=0){
+    alert('Completa nombre, cantidad y valor FOB unitario.'); return;
+  }
+  const prod = { nombre, qty, fob, pvp };
+  const idx  = parseInt(document.getElementById('p-edit-index').value);
+  if(idx >= 0){ products[idx] = prod; } else { products.push(prod); }
   closeProdModal(); calcAll();
 }
 function removeProduct(i){
-  if(!confirm(`¿Eliminar "${products[i].nombre}"?`))return;
+  if(!confirm(`¿Eliminar "${products[i].nombre}"?`)) return;
   products.splice(i,1); calcAll();
 }
 
-/* ── ABONOS ───────────────────────────────── */
+/* ═══════════════════════════════════════════
+   ABONOS — entrada en USD + cotización → calcula pesos
+═══════════════════════════════════════════ */
 function previewAbono(){
-  const usd=parseFloat(document.getElementById('a-usd').value)||0;
-  const cot=parseFloat(document.getElementById('a-cotizacion').value)||0;
-  const prev=document.getElementById('abono-preview');
-  if(usd>0&&cot>0){
-    prev.style.display='block';
-    prev.textContent=`USD $${fmtUSD(usd)} × ${fmt0(cot)} = COP $${fmt0(usd*cot)}`;
+  const usd = parseFloat(document.getElementById('a-usd').value)||0;
+  const cot = parseFloat(document.getElementById('a-cotizacion').value)||0;
+  const prev = document.getElementById('abono-preview');
+  const calc = document.getElementById('a-pesos-calc');
+  if(usd > 0 && cot > 0){
+    const pesos = usd * cot;
+    prev.style.display = 'block';
+    prev.textContent = `USD $${fmtUSD(usd)} × $${fmt0(cot)} = ${fmtP(pesos)}`;
+    calc.value = fmtP(pesos);
+  } else if(usd > 0){
+    prev.style.display = 'block';
+    prev.textContent = 'Ingresa la cotización para calcular el valor en pesos.';
+    calc.value = '';
   } else {
-    prev.style.display='none';
+    prev.style.display = 'none';
+    calc.value = '';
   }
 }
 function openAbonoModal(){
   document.getElementById('abono-overlay').classList.add('open');
-  // Poner fecha de hoy por defecto
-  document.getElementById('a-fecha').value=new Date().toISOString().slice(0,10);
-  setTimeout(()=>document.getElementById('a-usd').focus(),100);
+  document.getElementById('a-fecha').value = new Date().toISOString().slice(0,10);
+  setTimeout(()=>document.getElementById('a-usd').focus(), 100);
 }
 function closeAbonoModal(){
   document.getElementById('abono-overlay').classList.remove('open');
   ['a-fecha','a-usd','a-cotizacion','a-concepto'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('abono-preview').style.display='none';
+  document.getElementById('a-pesos-calc').value = '';
+  document.getElementById('abono-preview').style.display = 'none';
 }
 function addAbono(){
-  const fecha=document.getElementById('a-fecha').value;
-  const usd=parseFloat(document.getElementById('a-usd').value);
-  const cot=parseFloat(document.getElementById('a-cotizacion').value);
-  const concepto=document.getElementById('a-concepto').value.trim();
-  if(!fecha||!usd||usd<=0||!cot||cot<=0){alert('Ingresa fecha, valor en USD y cotización del dólar.');return;}
-  abonos.push({fecha,usd,cotizacion:cot,pesos:usd*cot,concepto});
+  const fecha    = document.getElementById('a-fecha').value;
+  const usd      = parseFloat(document.getElementById('a-usd').value);
+  const cot      = parseFloat(document.getElementById('a-cotizacion').value);
+  const concepto = document.getElementById('a-concepto').value.trim();
+  if(!fecha || !usd || usd<=0){ alert('Ingresa la fecha y el valor en USD.'); return; }
+  if(!cot || cot<=0){ alert('Ingresa la cotización del dólar para calcular el valor en pesos.'); return; }
+  const pesos = usd * cot;
+  abonos.push({ fecha, usd, cotizacion: cot, pesos, concepto });
   closeAbonoModal(); calcAll();
 }
 function removeAbono(i){
-  if(!confirm('¿Eliminar este abono?'))return;
+  if(!confirm('¿Eliminar este abono?')) return;
   abonos.splice(i,1); calcAll();
 }
-function renderAbonos(){
-  const{fobFactura,cotizacion}=getAllCalcs();
-  // Abonos aplican SOLO al FOB de la factura (sin gastos de importación)
-  const baseAbonos=fobFactura;
-  const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
-  const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
-  const saldoUSD=baseAbonos-totalAbonadoUSD;
-  // Saldo en pesos: FOB al cambio actual menos suma de abonos a su cotización de cada fecha
-  const fobEnPesos=cotizacion>0 ? baseAbonos*cotizacion : 0;
-  const saldoPesos=fobEnPesos-totalAbonadoPesos;
 
-  // Barra de saldo
-  const sb=document.getElementById('saldo-bar');
-  const cls=saldoUSD<=0?'zero':saldoUSD<baseAbonos?'pending':'ok';
-  const saldoLabel=saldoUSD<=0?'✅ Factura FOB pagada completamente':saldoUSD<baseAbonos?'⏳ Pago parcial — saldo pendiente':'📋 Sin abonos registrados';
-  sb.innerHTML=`
-    <div class="saldo-box ${cls}" style="margin-bottom:12px">
+function renderAbonos(){
+  const totalPesos = getTotalAbonosPesos();
+  const totalUSD   = abonos.reduce((s,a)=>s+a.usd, 0);
+
+  const sb = document.getElementById('saldo-bar');
+  sb.innerHTML = abonos.length > 0 ? `
+    <div class="saldo-box ok" style="margin-bottom:12px">
       <div>
-        <div class="saldo-label" style="color:${saldoUSD<=0?'var(--accent)':saldoUSD<baseAbonos?'var(--warn)':'var(--text2)'}">${saldoLabel}</div>
+        <div class="saldo-label" style="color:var(--accent)">${abonos.length} abono(s) · USD $${fmtUSD(totalUSD)}</div>
         <div style="font-size:calc(var(--fs)-4px);color:var(--text2);margin-top:3px">
-          FOB factura: <b>USD $${fmtUSD(baseAbonos)}</b> · Abonado: <b>USD $${fmtUSD(totalAbonadoUSD)}</b>
+          La suma en pesos es el <b>valor FOB de la factura</b>
         </div>
-        <div style="font-size:calc(var(--fs)-5px);color:var(--text3);margin-top:2px">(Los gastos de importación se pagan por separado)</div>
       </div>
       <div style="text-align:right">
-        <div class="saldo-val" style="color:${saldoUSD<=0?'var(--accent)':'var(--danger)'}">USD $${fmtUSD(Math.abs(saldoUSD))}</div>
-        ${cotizacion>0&&abonos.length>0?`<div style="font-size:calc(var(--fs)-4px);color:var(--text2)">COP $${fmt0(Math.abs(saldoPesos))}</div>`:''}
+        <div class="saldo-val" style="color:var(--accent)">${fmtP(totalPesos)}</div>
       </div>
-    </div>`;
+    </div>` : '';
 
-  const list=document.getElementById('abono-list');
-  if(abonos.length===0){
-    list.innerHTML='<div class="empty"><div class="icon">💳</div>No hay abonos registrados.</div>';
+  const list = document.getElementById('abono-list');
+  if(abonos.length === 0){
+    list.innerHTML = '<div class="empty"><div class="icon">💳</div>No hay abonos registrados.</div>';
     return;
   }
-  list.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding:0 2px">
-      <span style="font-size:calc(var(--fs)-4px);color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.05em">${abonos.length} abono(s)</span>
-      <span style="font-size:calc(var(--fs)-3px);color:var(--text2)">Total: <b>$${fmtUSD(totalAbonadoUSD)}</b> USD · <b>$${fmt0(totalAbonadoPesos)}</b> COP</span>
-    </div>`+
-    abonos.map((a,i)=>`
+  list.innerHTML = abonos.map((a,i) => `
     <div class="abono-item">
       <div class="abono-info">
-        <div class="abono-fecha">${formatFecha(a.fecha)}${a.concepto?` · ${a.concepto}`:''}</div>
-        <div class="abono-usd">USD $${fmtUSD(a.usd)}</div>
-        <div class="abono-detail">Cotización: $${fmt0(a.cotizacion)} · COP: <b>$${fmt0(a.pesos)}</b></div>
+        <div class="abono-fecha">${formatFecha(a.fecha)}${a.concepto ? ` · ${a.concepto}` : ''}</div>
+        <div class="abono-principal">USD $${fmtUSD(a.usd)}</div>
+        <div class="abono-detail">Cotiz.: $${fmt0(a.cotizacion)} &nbsp;→&nbsp; <b>${fmtP(a.pesos)}</b></div>
       </div>
       <button class="btn xs danger" onclick="removeAbono(${i})">✕</button>
     </div>`).join('');
 }
-function formatFecha(f){
-  if(!f) return '—';
-  const[y,m,d]=f.split('-');
-  const meses=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return `${d} ${meses[parseInt(m)-1]} ${y}`;
-}
 
-/* ── RENDER RESUMEN ───────────────────────── */
+/* ═══════════════════════════════════════════
+   RENDER RESUMEN
+═══════════════════════════════════════════ */
 function renderResumen(rows){
-  if(!rows){const d=getAllCalcs();rows=d.rows;}
-  const{totalGastos,cotizacion,fobFactura,totalFactura}=getAllCalcs();
-  const me=document.getElementById('res-metrics');
-  const be=document.getElementById('res-body');
-  const ee=document.getElementById('res-empty');
-  const rc=document.getElementById('res-card');
-  const ra=document.getElementById('res-abonos-card');
+  if(!rows){ const d=getAllCalcs(); rows=d.rows; }
+  const { totalGastos, fobPesos, totalOp, diferencia } = getAllCalcs();
+  const me  = document.getElementById('res-metrics');
+  const be  = document.getElementById('res-body');
+  const ee  = document.getElementById('res-empty');
+  const rc  = document.getElementById('res-card');
+  const ra  = document.getElementById('res-abonos-card');
 
-  if(!rows||rows.length===0){
-    me.innerHTML=''; if(be)be.innerHTML='';
-    if(ee)ee.style.display='block';
-    if(rc)rc.style.display='none';
-    if(ra)ra.style.display='none';
+  if(!rows || rows.length === 0){
+    me.innerHTML = '';
+    if(be) be.innerHTML = '';
+    if(ee) ee.style.display = 'block';
+    if(rc) rc.style.display = 'none';
+    if(ra) ra.style.display = 'none';
     return;
   }
-  if(ee)ee.style.display='none';
-  if(rc)rc.style.display='block';
+  if(ee) ee.style.display = 'none';
+  if(rc) rc.style.display = 'block';
 
-  const tv=rows.reduce((s,{r,p})=>s+r.pvp*p.qty,0);
-  const tg=rows.reduce((s,{r})=>s+r.gananciaTotal,0);
-  const tc=rows.reduce((s,{r})=>s+r.costoTotal,0);
-  const tvP=cotizacion>0?tv*cotizacion:0;
-  const rt=tv>0?(tg/tv*100):0;
+  const totalFOBProd   = rows.reduce((s,r)=>s+r.fobProd, 0);
+  const totalCosto     = rows.reduce((s,r)=>s+r.costoTotal, 0);
+  const totalGanancias = rows.filter(r=>r.pvp>0).reduce((s,r)=>s+r.gananciaTotal, 0);
+  const totalUnidades  = rows.reduce((s,{p})=>s+p.qty, 0);
 
-  me.innerHTML=`
-    <div class="metric"><div class="metric-label">Total venta USD</div><div class="metric-val">$${fmtUSD(tv)}</div></div>
-    <div class="metric"><div class="metric-label">Ganancia USD</div><div class="metric-val green">$${fmtUSD(tg)}</div></div>
-    <div class="metric"><div class="metric-label">Total venta COP</div><div class="metric-val info">${cotizacion>0?'$'+fmt0(tvP):'—'}</div></div>
-    <div class="metric"><div class="metric-label">Rentabilidad</div><div class="metric-val green">${rt.toFixed(1)}%</div></div>`;
+  me.innerHTML = `
+    <div class="metric"><div class="metric-label">FOB total (abonos)</div><div class="metric-val info">${fmtP(fobPesos)}</div></div>
+    <div class="metric"><div class="metric-label">Gastos importación</div><div class="metric-val">${fmtP(totalGastos)}</div></div>
+    <div class="metric"><div class="metric-label">Total operación</div><div class="metric-val green">${fmtP(totalOp)}</div></div>
+    <div class="metric"><div class="metric-label">Ganancia total</div><div class="metric-val green">${totalGanancias>0?fmtP(totalGanancias):'—'}</div></div>`;
 
-  if(be) be.innerHTML=rows.map(({p,r})=>`
+  if(be) be.innerHTML = rows.map(({p, fobProd, gastoProp, costoUnit, pvp, ganancia, gananciaTotal}) => `
     <tr>
       <td title="${p.nombre}">${p.nombre}</td>
       <td>${p.qty}</td>
-      <td>$${fmtUSD(r.costoUnit)}</td>
-      <td>$${fmtUSD(r.pvp)}</td>
-      <td style="color:var(--info)">${cotizacion>0?'$'+fmt0(r.pvpPesos):'—'}</td>
-      <td style="color:var(--accent)">$${fmtUSD(r.gananciaTotal)}</td>
-    </tr>`).join('')+
+      <td>${fmtP(p.fob)}</td>
+      <td>${fmtP(fobProd)}</td>
+      <td>${fmtP(gastoProp)}</td>
+      <td>${fmtP(costoUnit)}</td>
+      <td style="color:var(--info);font-weight:700">${pvp>0?fmtP(pvp):'—'}</td>
+      <td style="color:var(--accent)">${pvp>0?fmtP(ganancia):'—'}</td>
+    </tr>`).join('') +
     `<tr class="total-row">
-      <td colspan="2">TOTAL</td>
+      <td>TOTAL (${totalUnidades} uds.)</td>
+      <td>—</td><td>—</td>
+      <td>${fmtP(totalFOBProd)}</td>
+      <td>${fmtP(totalGastos)}</td>
+      <td>${fmtP(totalCosto)}</td>
       <td>—</td>
-      <td>$${fmtUSD(tv)}</td>
-      <td>${cotizacion>0?'$'+fmt0(tvP):'—'}</td>
-      <td>$${fmtUSD(tg)}</td>
+      <td>${totalGanancias>0?fmtP(totalGanancias):'—'}</td>
     </tr>`;
 
-  // Estado pagos en resumen
-  if(abonos.length>0){
-    if(ra) ra.style.display='block';
-    const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
-    const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
-    // Saldo sobre FOB únicamente
-    const saldo=fobFactura-totalAbonadoUSD;
-    const saldoPesos=cotizacion>0?fobFactura*cotizacion-totalAbonadoPesos:0;
-    document.getElementById('res-pagos').innerHTML=`
-      <div class="row2" style="gap:10px;margin-bottom:10px">
-        <div class="metric"><div class="metric-label">FOB factura USD</div><div class="metric-val">$${fmtUSD(fobFactura)}</div></div>
-        <div class="metric"><div class="metric-label">Abonado USD</div><div class="metric-val">$${fmtUSD(totalAbonadoUSD)}</div></div>
-        <div class="metric"><div class="metric-label">Saldo FOB USD</div><div class="metric-val ${saldo<=0?'green':'danger'}">$${fmtUSD(Math.abs(saldo))}</div></div>
-        <div class="metric"><div class="metric-label">Total abonado COP</div><div class="metric-val info">$${fmt0(totalAbonadoPesos)}</div></div>
-      </div>
-      <div style="font-size:calc(var(--fs)-4px);color:var(--text3);margin-bottom:8px">* Los gastos de importación (USD $${fmtUSD(totalGastos)}) se pagan por separado y no están incluidos en los abonos.</div>
-      ${saldo<=0?'<div class="infobox ok">✅ FOB de la factura completamente pagado.</div>':
-      `<div class="infobox warn">⏳ Saldo FOB pendiente: <b>USD $${fmtUSD(saldo)}</b>${cotizacion>0?` · COP $${fmt0(saldoPesos)}`:''}</div>`}`;
-  } else {
-    if(ra) ra.style.display='none';
-  }
+  // Detalle gastos de importación
+  if(ra) ra.style.display = 'block';
+  const gastosDetalle = GASTOS_IDS.map((id,i) => {
+    const v = parseFloat(document.getElementById(id).value)||0;
+    return v > 0 ? `<tr><td>${GASTOS_LABELS[i]}</td><td style="text-align:right">${fmtP(v)}</td></tr>` : '';
+  }).join('');
+  const totalUSD = abonos.reduce((s,a)=>s+a.usd, 0);
+  document.getElementById('res-pagos').innerHTML = `
+    <div class="table-wrap" style="margin-bottom:14px">
+      <table class="res-table">
+        <thead><tr><th>Concepto</th><th>Pesos</th></tr></thead>
+        <tbody>
+          ${gastosDetalle}
+          <tr class="total-row"><td>TOTAL GASTOS</td><td>${fmtP(totalGastos)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="metrics metrics-4">
+      <div class="metric"><div class="metric-label">FOB (abonos)</div><div class="metric-val info">${fmtP(fobPesos)}</div></div>
+      <div class="metric"><div class="metric-label">Total USD abonado</div><div class="metric-val">$${fmtUSD(totalUSD)}</div></div>
+      <div class="metric"><div class="metric-label">Gastos importación</div><div class="metric-val">${fmtP(totalGastos)}</div></div>
+      <div class="metric"><div class="metric-label">Total operación</div><div class="metric-val green">${fmtP(totalOp)}</div></div>
+    </div>`;
 }
 
-/* ── HISTORIAL ────────────────────────────── */
-function getHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'[]');}catch(e){return[];}}
-function setHistory(h){localStorage.setItem(HIST_KEY,JSON.stringify(h));}
+/* ═══════════════════════════════════════════
+   HISTORIAL
+═══════════════════════════════════════════ */
+function getHistory(){ try{ return JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); }catch(e){ return []; } }
+function setHistory(h){ localStorage.setItem(HIST_KEY, JSON.stringify(h)); }
 
 function saveToHistory(){
-  const d=buildData();
-  if(!d.nombre){alert('Asigna un nombre/referencia a la factura antes de guardar.');return;}
-  const h=getHistory();
-  const entry={...d,id:Date.now(),savedAt:new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})};
-  const idx=h.findIndex(x=>x.nombre===d.nombre);
-  if(idx>=0){if(!confirm(`Ya existe "${d.nombre}". ¿Actualizar?`))return; h[idx]=entry;}
+  const d = buildData();
+  if(!d.nombre){ alert('Asigna un nombre/referencia a la factura antes de guardar.'); return; }
+  const h = getHistory();
+  const entry = { ...d, id: Date.now(), savedAt: new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'}) };
+  const idx = h.findIndex(x=>x.nombre===d.nombre);
+  if(idx>=0){ if(!confirm(`Ya existe "${d.nombre}". ¿Actualizar?`)) return; h[idx]=entry; }
   else h.unshift(entry);
   setHistory(h); renderHistory(); flashSave();
   alert(`"${d.nombre}" guardada en el historial.`);
 }
+
 function renderHistory(){
-  const h=getHistory();
-  const list=document.getElementById('hist-list');
-  const empty=document.getElementById('hist-empty');
-  if(h.length===0){list.innerHTML='';empty.style.display='block';return;}
-  empty.style.display='none';
-  list.innerHTML=h.map((e,i)=>`
-    <div class="hist-item">
+  const h     = getHistory();
+  const list  = document.getElementById('hist-list');
+  const empty = document.getElementById('hist-empty');
+  if(h.length===0){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = h.map((e,i) => {
+    const fob    = (e.abonos||[]).reduce((s,a)=>s+a.pesos, 0);
+    const gastos = Object.values(e.gastos||{}).reduce((s,v)=>s+v, 0);
+    return `<div class="hist-item">
       <div class="hist-info">
         <div class="hist-name">${e.nombre}</div>
-        <div class="hist-meta">${e.savedAt} · ${(e.products||[]).length} prod. · FOB: $${fmtUSD(e.fobFactura||0)} · ${(e.abonos||[]).length} abono(s)</div>
+        <div class="hist-meta">${e.savedAt} · ${(e.products||[]).length} prod. · FOB: ${fmtP(fob)} · Gastos: ${fmtP(gastos)}</div>
       </div>
       <div class="hist-actions">
         <button class="btn sm" onclick="openHistModal(${i})">👁 Ver</button>
         <button class="btn sm accent" onclick="confirmLoad(${i})">📂</button>
         <button class="btn xs danger" onclick="deleteHist(${i})">✕</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
+
 function deleteHist(i){
-  const h=getHistory();
-  if(!confirm(`¿Eliminar "${h[i].nombre}"?`))return;
-  h.splice(i,1);setHistory(h);renderHistory();
+  const h = getHistory();
+  if(!confirm(`¿Eliminar "${h[i].nombre}"?`)) return;
+  h.splice(i,1); setHistory(h); renderHistory();
 }
 function confirmLoad(i){
-  const h=getHistory();
-  if(!confirm(`¿Cargar "${h[i].nombre}"? La factura actual se perderá si no fue guardada.`))return;
-  applyEntry(h[i]);switchTab(0);
+  const h = getHistory();
+  if(!confirm(`¿Cargar "${h[i].nombre}"? La factura actual se perderá si no fue guardada.`)) return;
+  applyEntry(h[i]); switchTab(0);
 }
 function applyEntry(e){
-  const set=(id,v)=>{if(v!==undefined&&v!==null&&v!=='')document.getElementById(id).value=v; else document.getElementById(id).value='';};
-  set('c-nombre',e.nombre); set('c-fecha',e.fecha);
-  set('c-fob-factura',e.fobFactura); set('c-cotizacion',e.cotizacion);
-  set('c-margen',e.margen);
-  GASTOS_IDS.forEach(id=>set(id,e.gastos?.[id]||''));
-  products=JSON.parse(JSON.stringify(e.products||[]));
-  abonos=JSON.parse(JSON.stringify(e.abonos||[]));
+  const set = (id,v) => { document.getElementById(id).value = (v!==undefined&&v!==null&&v!=='') ? v : ''; };
+  set('c-nombre', e.nombre);
+  set('c-fecha',  e.fecha);
+  GASTOS_IDS.forEach(id => set(id, e.gastos?.[id]||''));
+  products = JSON.parse(JSON.stringify(e.products||[]));
+  abonos   = JSON.parse(JSON.stringify(e.abonos||[]));
   save(); calcAll();
 }
 function openHistModal(i){
-  const h=getHistory();
-  _histEntry=h[i];
-  const e=_histEntry;
-  document.getElementById('hm-title').textContent=e.nombre;
-  const totalGastos=GASTOS_IDS.reduce((s,id)=>s+(e.gastos?.[id]||0),0);
-  const totalFactura=(e.fobFactura||0)+totalGastos;
-  const totalAbonadoUSD=(e.abonos||[]).reduce((s,a)=>s+a.usd,0);
-  const totalAbonadoPesos=(e.abonos||[]).reduce((s,a)=>s+a.pesos,0);
-  const prods=(e.products||[]).map(p=>`<tr><td>${p.nombre}</td><td style="text-align:right">${p.qty}</td><td style="text-align:right">$${fmtUSD(p.fob)}</td></tr>`).join('');
-  const abonosRows=(e.abonos||[]).map(a=>`<tr><td>${formatFecha(a.fecha)}</td><td style="text-align:right">$${fmtUSD(a.usd)}</td><td style="text-align:right">$${fmt0(a.cotizacion)}</td><td style="text-align:right">$${fmt0(a.pesos)}</td></tr>`).join('');
-  document.getElementById('hm-body').innerHTML=`
+  const h = getHistory();
+  _histEntry = h[i];
+  const e   = _histEntry;
+  document.getElementById('hm-title').textContent = e.nombre;
+  const fob    = (e.abonos||[]).reduce((s,a)=>s+a.pesos, 0);
+  const gastos = Object.values(e.gastos||{}).reduce((s,v)=>s+v, 0);
+  const prods  = (e.products||[]).map(p=>`<tr><td>${p.nombre}</td><td style="text-align:right">${p.qty}</td><td style="text-align:right">${fmtP(p.fob)}</td><td style="text-align:right">${fmtP(p.qty*p.fob)}</td></tr>`).join('');
+  const abRows = (e.abonos||[]).map(a=>`<tr><td>${formatFecha(a.fecha)}</td><td style="text-align:right">${fmtP(a.pesos)}</td><td style="text-align:right">${a.cotizacion?fmt0(a.cotizacion):'—'}</td><td style="text-align:right">${a.usd?'$'+fmtUSD(a.usd):'—'}</td></tr>`).join('');
+  document.getElementById('hm-body').innerHTML = `
     <div class="infobox info" style="margin-bottom:10px">
-      Guardada: ${e.savedAt} &nbsp;|&nbsp; FOB: <b>$${fmtUSD(e.fobFactura||0)}</b> &nbsp;|&nbsp; Gastos: <b>$${fmtUSD(totalGastos)}</b> &nbsp;|&nbsp; Total: <b>$${fmtUSD(totalFactura)}</b>
+      Guardada: ${e.savedAt} &nbsp;|&nbsp; FOB: <b>${fmtP(fob)}</b> &nbsp;|&nbsp; Gastos: <b>${fmtP(gastos)}</b> &nbsp;|&nbsp; Total: <b>${fmtP(fob+gastos)}</b>
     </div>
     ${prods?`<div class="card-title" style="margin-bottom:8px">Productos</div>
     <div class="table-wrap" style="margin-bottom:12px">
-      <table class="res-table"><thead><tr><th>Producto</th><th>Cant.</th><th>FOB unit.</th></tr></thead><tbody>${prods}</tbody></table>
+      <table class="res-table"><thead><tr><th>Producto</th><th>Cant.</th><th>FOB unit.</th><th>FOB total</th></tr></thead><tbody>${prods}</tbody></table>
     </div>`:''}
-    ${abonosRows?`<div class="card-title" style="margin-bottom:8px">Abonos · Abonado USD: $${fmtUSD(totalAbonadoUSD)}</div>
+    ${abRows?`<div class="card-title" style="margin-bottom:8px">Abonos · Total: ${fmtP(fob)}</div>
     <div class="table-wrap">
-      <table class="res-table"><thead><tr><th>Fecha</th><th>USD</th><th>Cotiz.</th><th>COP</th></tr></thead><tbody>${abonosRows}</tbody></table>
+      <table class="res-table"><thead><tr><th>Fecha</th><th>Pesos</th><th>Cotiz.</th><th>USD</th></tr></thead><tbody>${abRows}</tbody></table>
     </div>`:''}`;
   document.getElementById('hist-overlay').classList.add('open');
 }
-function closeHistModal(){document.getElementById('hist-overlay').classList.remove('open');_histEntry=null;}
+function closeHistModal(){ document.getElementById('hist-overlay').classList.remove('open'); _histEntry=null; }
 function loadFromHistModal(){
-  if(!_histEntry)return;
-  if(!confirm(`¿Cargar "${_histEntry.nombre}"?`))return;
-  applyEntry(_histEntry);closeHistModal();switchTab(0);
+  if(!_histEntry) return;
+  if(!confirm(`¿Cargar "${_histEntry.nombre}"?`)) return;
+  applyEntry(_histEntry); closeHistModal(); switchTab(0);
 }
 
-/* ── TABS ─────────────────────────────────── */
+/* ═══════════════════════════════════════════
+   TABS
+═══════════════════════════════════════════ */
 function switchTab(n){
   document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('active',i===n));
   document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('active',i===n));
   document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===n));
-  if(n===3){const d=getAllCalcs();renderResumen(d.rows);}
+  if(n===3){ const d=getAllCalcs(); renderResumen(d.rows); }
   if(n===4) renderHistory();
 }
 
-/* ── EXPORT EXCEL ─────────────────────────── */
+/* ═══════════════════════════════════════════
+   EXPORT EXCEL
+═══════════════════════════════════════════ */
 function exportExcel(){
-  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
-  if(rows.length===0&&abonos.length===0){alert('Agrega productos o abonos antes de exportar.');return;}
-  const wb=XLSX.utils.book_new();
-  const nombre=document.getElementById('c-nombre').value||'Factura';
+  const { totalGastos, fobPesos, totalOp, rows } = getAllCalcs();
+  const nombre = document.getElementById('c-nombre').value || 'Factura';
+  const wb = XLSX.utils.book_new();
 
   // Hoja 1: Resumen
-  const tv=rows.reduce((s,{r,p})=>s+r.pvp*p.qty,0);
-  const tg=rows.reduce((s,{r})=>s+r.gananciaTotal,0);
-  const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
-  const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
-  const ws1=XLSX.utils.aoa_to_sheet([
+  const totalGanancias = rows.filter(r=>r.pvp>0).reduce((s,r)=>s+r.gananciaTotal,0);
+  const ws1 = XLSX.utils.aoa_to_sheet([
     ['RESUMEN — '+nombre],[],
-    ['FOB factura (USD)',fobFactura],
-    ['Total gastos importación (USD)',totalGastos],
-    ['TOTAL FACTURA (USD)',totalFactura],
-    ['Cotización USD/COP',cotizacion],
-    ['Total factura (COP)',cotizacion>0?totalFactura*cotizacion:'-'],[],
-    ['VENTAS'],
-    ['Total venta estimada (USD)',tv],
-    ['Total ganancia (USD)',tg],
-    ['Total venta estimada (COP)',cotizacion>0?tv*cotizacion:'-'],[],
-    ['PAGOS'],
-    ['Total abonado (USD)',totalAbonadoUSD],
-    ['Total abonado (COP)',totalAbonadoPesos],
-    ['Saldo pendiente (USD)',totalFactura-totalAbonadoUSD],
+    ['FOB total (pesos / abonos)', fobPesos],
+    ['Total gastos importación (pesos)', totalGastos],
+    ['TOTAL OPERACIÓN (pesos)', totalOp],[],
+    ['Total unidades', rows.reduce((s,{p})=>s+p.qty,0)],
+    ['Costo total', rows.reduce((s,r)=>s+r.costoTotal,0)],
+    ['Ganancia total estimada', totalGanancias>0?totalGanancias:'—'],
   ]);
-  ws1['!cols']=[{wch:34},{wch:18}];
-  XLSX.utils.book_append_sheet(wb,ws1,'Resumen');
+  ws1['!cols']=[{wch:36},{wch:18}];
+  XLSX.utils.book_append_sheet(wb, ws1, 'Resumen');
 
-  // Hoja 2: Gastos
-  const gastosData=[['CONCEPTO','USD'],...GASTOS_IDS.map((id,i)=>[GASTOS_LABELS[i],parseFloat(document.getElementById(id).value)||0]),['TOTAL',totalGastos]];
-  const ws2=XLSX.utils.aoa_to_sheet(gastosData);
-  ws2['!cols']=[{wch:24},{wch:14}];
-  XLSX.utils.book_append_sheet(wb,ws2,'Gastos');
+  // Hoja 2: Gastos detallados
+  const ws2 = XLSX.utils.aoa_to_sheet([
+    ['CONCEPTO','PESOS'],
+    ...GASTOS_IDS.map((id,i)=>[GASTOS_LABELS[i], parseFloat(document.getElementById(id).value)||0]),
+    ['TOTAL', totalGastos]
+  ]);
+  ws2['!cols']=[{wch:24},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, ws2, 'Gastos');
 
-  // Hoja 3: Productos
-  const hdrs=['Producto','Cant.','FOB Unit.','FOB Total','Gasto Prop.','Arancel','Costo Total','Costo Unit.','Margen%','PVP USD','PVP COP','Gan. Unit.','Gan. Total USD'];
-  const ws3=XLSX.utils.aoa_to_sheet([hdrs,...rows.map(({p,r})=>[p.nombre,p.qty,p.fob,r.fobTotal,r.gastoProp,r.arancelVal,r.costoTotal,r.costoUnit,r.margen,r.pvp,cotizacion>0?r.pvpPesos:'-',r.gananciaUnit,r.gananciaTotal])]);
-  ws3['!cols']=hdrs.map((_,i)=>({wch:i===0?28:13}));
-  XLSX.utils.book_append_sheet(wb,ws3,'Productos');
+  // Hoja 3: Productos con PVP individual
+  const hdrs = ['Producto','Cant.','FOB Unit.','FOB Total','Gasto Prop.','Costo Total','Costo Unit.','PVP','Ganancia Unit.','Ganancia Total'];
+  const ws3 = XLSX.utils.aoa_to_sheet([
+    hdrs,
+    ...rows.map(({p,fobProd,gastoProp,costoTotal,costoUnit,pvp,ganancia,gananciaTotal})=>[
+      p.nombre, p.qty, p.fob, fobProd, gastoProp, costoTotal, costoUnit,
+      pvp>0?pvp:'—', pvp>0?ganancia:'—', pvp>0?gananciaTotal:'—'
+    ])
+  ]);
+  ws3['!cols']=hdrs.map((_,i)=>({wch:i===0?28:14}));
+  XLSX.utils.book_append_sheet(wb, ws3, 'Productos');
 
-  // Hoja 4: Abonos
+  // Hoja 4: Abonos (USD → pesos)
   if(abonos.length>0){
-    const aHdrs=['Fecha','Concepto','Valor USD','Cotización','Valor COP'];
-    const ws4=XLSX.utils.aoa_to_sheet([aHdrs,...abonos.map(a=>[a.fecha,a.concepto||'',a.usd,a.cotizacion,a.pesos]),['','TOTAL',totalAbonadoUSD,'',totalAbonadoPesos]]);
-    ws4['!cols']=[{wch:14},{wch:28},{wch:14},{wch:12},{wch:16}];
-    XLSX.utils.book_append_sheet(wb,ws4,'Abonos');
+    const totalUSD = abonos.reduce((s,a)=>s+a.usd,0);
+    const ws4 = XLSX.utils.aoa_to_sheet([
+      ['Fecha','Concepto','USD','Cotización','Pesos'],
+      ...abonos.map(a=>[a.fecha, a.concepto||'', a.usd, a.cotizacion, a.pesos]),
+      ['','TOTAL USD',totalUSD,'',''],
+      ['','TOTAL PESOS (FOB)','','',fobPesos]
+    ]);
+    ws4['!cols']=[{wch:14},{wch:28},{wch:12},{wch:12},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, ws4, 'Abonos');
   }
 
-  XLSX.writeFile(wb,`importacion_${(nombre).replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`);
+  XLSX.writeFile(wb, `importacion_${nombre.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
-/* ── EXPORT PDF ───────────────────────────── */
+/* ═══════════════════════════════════════════
+   EXPORT PDF
+═══════════════════════════════════════════ */
 function exportPDF(){
-  const{totalGastos,cotizacion,fobFactura,rows,totalFactura}=getAllCalcs();
-  const{jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const pw=doc.internal.pageSize.getWidth();
-  const nombre=document.getElementById('c-nombre').value||'Factura';
-  const fecha=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
+  const { totalGastos, fobPesos, totalOp, rows } = getAllCalcs();
+  const { jsPDF } = window.jspdf;
+  const doc    = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const pw     = doc.internal.pageSize.getWidth();
+  const ph     = doc.internal.pageSize.getHeight();
+  const ML     = 14;
+  const MR     = 14;
+  const CW     = pw - ML - MR;
+  const nombre = document.getElementById('c-nombre').value || 'Factura';
+  const fechaFactura = document.getElementById('c-fecha').value
+    ? formatFecha(document.getElementById('c-fecha').value) : '—';
+  const fechaGen = new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
 
-  // Header
-  doc.setFillColor(58,125,84);doc.rect(0,0,pw,28,'F');
-  doc.setTextColor(255,255,255);doc.setFontSize(15);doc.setFont(undefined,'bold');
-  doc.text('ImportaCalc — Reporte de Importación',14,11);
-  doc.setFontSize(9);doc.setFont(undefined,'normal');
-  doc.text(`Generado: ${fecha}`,14,18);
-  doc.text(`Referencia: ${nombre}`,14,24);
+  // Paleta de colores (sin spread en ternario)
+  const VERDE  = [45, 106, 79];
+  const VERDE2 = [210, 240, 220];
+  const GRIS1  = [245, 246, 244];
+  const GRIS2  = [230, 232, 228];
+  const TEXT   = [28, 38, 28];
+  const TEXT2  = [90, 110, 90];
 
-  // Gastos
-  doc.setTextColor(30,30,30);doc.setFontSize(11);doc.setFont(undefined,'bold');
-  doc.text('Gastos de importación',14,36);
-  const gastosBody=GASTOS_IDS.map((id,i)=>[GASTOS_LABELS[i],'$'+fmtUSD(parseFloat(document.getElementById(id).value)||0)]);
-  gastosBody.push(['TOTAL GASTOS','$'+fmtUSD(totalGastos)]);
-  gastosBody.push(['FOB Factura','$'+fmtUSD(fobFactura)]);
-  gastosBody.push(['TOTAL FACTURA (USD)','$'+fmtUSD(totalFactura)]);
-  if(cotizacion>0) gastosBody.push(['Cotización USD/COP','$'+fmt0(cotizacion)]);
-  if(cotizacion>0) gastosBody.push(['TOTAL FACTURA (COP)','$'+fmt0(totalFactura*cotizacion)]);
-  doc.autoTable({startY:40,head:[['Concepto','Valor (USD)']],body:gastosBody,
-    styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
-    columnStyles:{1:{halign:'right'}},alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+  function setFill(arr){ doc.setFillColor(arr[0],arr[1],arr[2]); }
+  function setTxt(arr){  doc.setTextColor(arr[0],arr[1],arr[2]); }
+  function setDraw(arr){ doc.setDrawColor(arr[0],arr[1],arr[2]); }
 
-  // Productos
-  if(rows.length>0){
-    let y=doc.lastAutoTable.finalY+8;
-    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Detalle de productos',14,y);
-    doc.autoTable({startY:y+4,
-      head:[['Producto','Cant.','Costo Unit.','PVP USD',cotizacion>0?'PVP COP':'','Ganancia']],
-      body:rows.map(({p,r})=>[p.nombre,p.qty,'$'+fmtUSD(r.costoUnit),'$'+fmtUSD(r.pvp),cotizacion>0?'$'+fmt0(r.pvpPesos):'','$'+fmtUSD(r.gananciaTotal)]),
-      styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
-      columnStyles:{0:{cellWidth:44},1:{halign:'center'},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'},5:{halign:'right'}},
-      alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+  function sectionTitle(text, y){
+    setFill(VERDE); doc.rect(ML, y, CW, 8, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(12); doc.setFont(undefined,'bold');
+    doc.text(text, ML+3, y+5.5);
+    setTxt(TEXT);
+    return y + 11;
+  }
+  function checkPage(y, needed){
+    needed = needed || 25;
+    if(y + needed > ph - 16){ doc.addPage(); return 16; }
+    return y;
   }
 
-  // Abonos
-  if(abonos.length>0){
-    const totalAbonadoUSD=abonos.reduce((s,a)=>s+a.usd,0);
-    const totalAbonadoPesos=abonos.reduce((s,a)=>s+a.pesos,0);
-    const saldo=totalFactura-totalAbonadoUSD;
-    let y=doc.lastAutoTable.finalY+8;
-    doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Abonos realizados',14,y);
-    doc.autoTable({startY:y+4,
-      head:[['Fecha','Concepto','USD','Cotización','COP']],
-      body:[...abonos.map(a=>[formatFecha(a.fecha),a.concepto||'—','$'+fmtUSD(a.usd),'$'+fmt0(a.cotizacion),'$'+fmt0(a.pesos)]),
-            ['','TOTAL','$'+fmtUSD(totalAbonadoUSD),'','$'+fmt0(totalAbonadoPesos)],
-            ['','SALDO PENDIENTE','$'+fmtUSD(saldo),'','']],
-      styles:{fontSize:8.5,cellPadding:3},headStyles:{fillColor:[58,125,84],textColor:255,fontStyle:'bold'},
-      columnStyles:{2:{halign:'right'},3:{halign:'right'},4:{halign:'right'}},
-      alternateRowStyles:{fillColor:[245,250,246]},margin:{left:14,right:14}});
+  // ── ENCABEZADO ──────────────────────────────
+  setFill(VERDE); doc.rect(0, 0, pw, 32, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(18); doc.setFont(undefined,'bold');
+  doc.text('ImportaCalc', ML, 13);
+  doc.setFontSize(11); doc.setFont(undefined,'normal');
+  doc.text('Reporte de Importación', ML, 20);
+  doc.setFontSize(9);
+  doc.text('Proveedor: '+nombre+'   ·   Factura: '+fechaFactura+'   ·   Generado: '+fechaGen, ML, 27);
+  setTxt(TEXT);
+
+  let y = 40;
+
+  // ── MÉTRICAS (4 cajas) ──────────────────────
+  const totalGanancias = rows.filter(function(r){return r.pvp>0;}).reduce(function(s,r){return s+r.gananciaTotal;},0);
+  const totalUSDAbonos = abonos.reduce(function(s,a){return s+a.usd;},0);
+  var metricas = [
+    {label:'FOB total (abonos)',      value:fmtP(fobPesos),                            destacado:false},
+    {label:'Gastos de importación',   value:fmtP(totalGastos),                         destacado:false},
+    {label:'Total operación',         value:fmtP(totalOp),                             destacado:true },
+    {label:'Ganancia total estimada', value:totalGanancias>0?fmtP(totalGanancias):'—', destacado:true },
+  ];
+  var boxW = CW/4;
+  var boxH = 20;
+  metricas.forEach(function(m, i){
+    var bx = ML + i*boxW;
+    if(m.destacado){ setFill(VERDE2); } else { setFill(GRIS1); }
+    doc.rect(bx, y, boxW-1, boxH, 'F');
+    doc.setFontSize(8); doc.setFont(undefined,'normal'); setTxt(TEXT2);
+    doc.text(m.label, bx+2, y+6, {maxWidth: boxW-4});
+    doc.setFontSize(13); doc.setFont(undefined,'bold'); setTxt(VERDE);
+    doc.text(m.value, bx + boxW/2 - 0.5, y+15.5, {align:'center'});
+  });
+  setTxt(TEXT);
+  y += boxH + 6;
+
+  // ── GASTOS DE IMPORTACIÓN ───────────────────
+  y = sectionTitle('Gastos de importación', y);
+  var gastosActivos = GASTOS_IDS.map(function(id,i){
+    return {label: GASTOS_LABELS[i], value: parseFloat(document.getElementById(id).value)||0};
+  }).filter(function(g){return g.value>0;});
+
+  var gColW = CW/2 - 3;
+  var gRowH = 9;
+  for(var gi=0; gi<gastosActivos.length; gi+=2){
+    y = checkPage(y, gRowH);
+    if(Math.floor(gi/2)%2===0){ setFill(GRIS1); doc.rect(ML,y,CW,gRowH,'F'); }
+    var g1 = gastosActivos[gi];
+    var g2 = gastosActivos[gi+1];
+    doc.setFontSize(10); doc.setFont(undefined,'normal'); setTxt(TEXT2);
+    doc.text(g1.label, ML+2, y+6);
+    doc.setFont(undefined,'bold'); setTxt(TEXT); doc.setFontSize(11);
+    doc.text(fmtP(g1.value), ML+gColW, y+6, {align:'right'});
+    if(g2){
+      doc.setFont(undefined,'normal'); setTxt(TEXT2); doc.setFontSize(10);
+      doc.text(g2.label, ML+CW/2+2, y+6);
+      doc.setFont(undefined,'bold'); setTxt(TEXT); doc.setFontSize(11);
+      doc.text(fmtP(g2.value), ML+CW, y+6, {align:'right'});
+    }
+    y += gRowH;
+  }
+  y += 2;
+  setFill(VERDE2); doc.rect(ML, y, CW, 10, 'F');
+  doc.setFontSize(11); doc.setFont(undefined,'bold'); setTxt(VERDE);
+  doc.text('Total gastos', ML+2, y+7);
+  doc.text(fmtP(totalGastos), ML+CW, y+7, {align:'right'});
+  setTxt(TEXT);
+  y += 14;
+
+  // ── PRODUCTOS ───────────────────────────────
+  if(rows.length > 0){
+    y = checkPage(y, 20);
+    y = sectionTitle('Detalle de productos', y);
+
+    var colsP = [
+      {label:'Producto',       w:46, align:'left'},
+      {label:'Cant.',          w:13, align:'center'},
+      {label:'FOB unit.',      w:25, align:'right'},
+      {label:'Gasto prop.',    w:26, align:'right'},
+      {label:'Costo unit.',    w:26, align:'right'},
+      {label:'PVP',            w:23, align:'right'},
+      {label:'Ganancia unit.', w:23, align:'right'},
+    ];
+    var totalColW = colsP.reduce(function(s,c){return s+c.w;},0);
+    var scale = CW / totalColW;
+    var cx = ML;
+    var colsScaled = colsP.map(function(c){ var sc={label:c.label,w:c.w*scale,align:c.align,x:cx}; cx+=sc.w; return sc; });
+
+    // Cabecera
+    setFill(VERDE); doc.rect(ML, y, CW, 8, 'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
+    colsScaled.forEach(function(c){
+      var tx = c.align==='right' ? c.x+c.w-1 : c.align==='center' ? c.x+c.w/2 : c.x+1;
+      doc.text(c.label, tx, y+5.5, {align: c.align});
+    });
+    setTxt(TEXT);
+    y += 8;
+
+    rows.forEach(function(row, ri){
+      var p=row.p, gastoProp=row.gastoProp, costoUnit=row.costoUnit, pvp=row.pvp, ganancia=row.ganancia;
+      var rowH = 10;
+      y = checkPage(y, rowH);
+      if(ri%2===0){ setFill(GRIS1); doc.rect(ML,y,CW,rowH,'F'); }
+      var vals = [p.nombre, String(p.qty), fmtP(p.fob), fmtP(gastoProp), fmtP(costoUnit), pvp>0?fmtP(pvp):'—', pvp>0?fmtP(ganancia):'—'];
+      doc.setFontSize(10);
+      colsScaled.forEach(function(c,ci){
+        if(ci===5){ setTxt(VERDE); doc.setFont(undefined,'bold'); }
+        else if(ci===6){ doc.setTextColor(20,80,160); doc.setFont(undefined,'bold'); }
+        else { setTxt(TEXT); doc.setFont(undefined,'normal'); }
+        var tx = c.align==='right' ? c.x+c.w-1 : c.align==='center' ? c.x+c.w/2 : c.x+1;
+        doc.text(vals[ci], tx, y+6.5, {align:c.align, maxWidth:c.w-2});
+      });
+      y += rowH;
+    });
+
+    // Fila totales
+    var tFOB   = rows.reduce(function(s,r){return s+r.fobProd;},0);
+    var tCosto = rows.reduce(function(s,r){return s+r.costoTotal;},0);
+    var tGan   = rows.filter(function(r){return r.pvp>0;}).reduce(function(s,r){return s+r.gananciaTotal;},0);
+    var tUds   = rows.reduce(function(s,r){return s+r.p.qty;},0);
+    y += 1;
+    setFill(VERDE2); doc.rect(ML, y, CW, 10, 'F');
+    doc.setFontSize(10); doc.setFont(undefined,'bold'); setTxt(VERDE);
+    var totVals = ['TOTAL', String(tUds), fmtP(tFOB), fmtP(totalGastos), fmtP(tCosto), '—', tGan>0?fmtP(tGan):'—'];
+    colsScaled.forEach(function(c,ci){
+      var tx = c.align==='right'?c.x+c.w-1:c.align==='center'?c.x+c.w/2:c.x+1;
+      doc.text(totVals[ci], tx, y+7, {align:c.align, maxWidth:c.w-2});
+    });
+    setTxt(TEXT);
+    y += 14;
   }
 
-  for(let i=1;i<=doc.internal.getNumberOfPages();i++){
-    doc.setPage(i);doc.setFontSize(8);doc.setTextColor(160,160,160);
-    doc.text(`Página ${i} de ${doc.internal.getNumberOfPages()} — ImportaCalc`,pw/2,291,{align:'center'});
+  // ── ABONOS ──────────────────────────────────
+  if(abonos.length > 0){
+    y = checkPage(y, 20);
+    y = sectionTitle('Abonos realizados', y);
+
+    var aLabels = ['Fecha','Concepto','USD','Cotización','Pesos'];
+    var aWidths = [35, 45, 26, 24, 32];
+    var aTotalW = aWidths.reduce(function(s,w){return s+w;},0);
+    var ax2 = ML;
+    var aCols = aWidths.map(function(w,i){ var c={label:aLabels[i], w:w*CW/aTotalW, x:ax2}; ax2+=c.w; return c; });
+
+    setFill(VERDE); doc.rect(ML, y, CW, 8, 'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
+    aCols.forEach(function(c,i){
+      var al = i>=2?'right':'left';
+      doc.text(c.label, al==='right'?c.x+c.w-1:c.x+1, y+5.5, {align:al});
+    });
+    setTxt(TEXT);
+    y += 8;
+
+    abonos.forEach(function(a, ai){
+      var rowH = 9;
+      y = checkPage(y, rowH);
+      if(ai%2===0){ setFill(GRIS1); doc.rect(ML,y,CW,rowH,'F'); }
+      var aVals = [formatFecha(a.fecha), a.concepto||'—', '$'+fmtUSD(a.usd), fmt0(a.cotizacion), fmtP(a.pesos)];
+      doc.setFontSize(10); setTxt(TEXT);
+      aCols.forEach(function(c,ci){
+        var al = ci>=2?'right':'left';
+        doc.setFont(undefined, ci===4?'bold':'normal');
+        doc.text(aVals[ci], al==='right'?c.x+c.w-1:c.x+1, y+6, {align:al, maxWidth:c.w-2});
+      });
+      y += rowH;
+    });
+
+    y += 1;
+    setFill(VERDE2); doc.rect(ML, y, CW, 10, 'F');
+    doc.setFontSize(11); doc.setFont(undefined,'bold'); setTxt(VERDE);
+    doc.text('TOTAL ABONOS', ML+2, y+7);
+    doc.text('$'+fmtUSD(totalUSDAbonos)+' USD', ML+CW*0.58, y+7, {align:'right'});
+    doc.text(fmtP(fobPesos), ML+CW, y+7, {align:'right'});
+    setTxt(TEXT);
+    y += 14;
   }
-  doc.save(`importacion_${(nombre).replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+
+  // ── TOTALES FINALES ─────────────────────────
+  y = checkPage(y, 56);
+  y = sectionTitle('Totales de la operación', y);
+  var finales = [
+    {label:'FOB total factura (pesos)',  value:fmtP(fobPesos),                            bold:false},
+    {label:'Total gastos importación',   value:fmtP(totalGastos),                         bold:false},
+    {label:'TOTAL OPERACIÓN',            value:fmtP(totalOp),                             bold:true },
+    {label:'Ganancia total estimada',    value:totalGanancias>0?fmtP(totalGanancias):'—', bold:true },
+  ];
+  finales.forEach(function(f, fi){
+    var rowH = 12;
+    y = checkPage(y, rowH);
+    if(f.bold){ setFill(VERDE2); }
+    else if(fi%2===0){ setFill(GRIS1); }
+    else { doc.setFillColor(255,255,255); }
+    doc.rect(ML, y, CW, rowH, 'F');
+    doc.setFontSize(f.bold?13:11);
+    doc.setFont(undefined, f.bold?'bold':'normal');
+    if(f.bold){ setTxt(VERDE); } else { setTxt(TEXT2); }
+    doc.text(f.label, ML+3, y+8);
+    if(f.bold){ setTxt(VERDE); } else { setTxt(TEXT); }
+    doc.setFont(undefined,'bold');
+    doc.text(f.value, ML+CW-2, y+8, {align:'right'});
+    y += rowH;
+  });
+
+  // ── PIE DE PÁGINA ───────────────────────────
+  var totalPgs = doc.internal.getNumberOfPages();
+  for(var pi=1; pi<=totalPgs; pi++){
+    doc.setPage(pi);
+    setDraw(GRIS2); doc.line(ML, ph-10, pw-MR, ph-10);
+    doc.setFontSize(8); doc.setFont(undefined,'normal'); setTxt(TEXT2);
+    doc.text('ImportaCalc — '+nombre, ML, ph-5);
+    doc.text('Página '+pi+' de '+totalPgs, pw-MR, ph-5, {align:'right'});
+  }
+
+  doc.save('importacion_'+nombre.replace(/\s+/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.pdf');
 }
 
-/* ── INIT ─────────────────────────────────── */
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
 loadPrefs();
 loadData();
 calcAll();
@@ -1049,11 +1297,9 @@ document.getElementById('prod-overlay').addEventListener('click',e=>{if(e.target
 document.getElementById('abono-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAbonoModal();});
 document.getElementById('hist-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeHistModal();});
 
-/* ── SERVICE WORKER (PWA) ─────────────────── */
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js', {scope: './'})
-    .then(reg => console.log('SW registrado:', reg.scope))
-    .catch(err => console.warn('SW error:', err));
+  navigator.serviceWorker.register('./sw.js',{scope:'./'})
+    .then(r=>console.log('SW:',r.scope)).catch(e=>console.warn('SW:',e));
 }
 </script>
 </body>
